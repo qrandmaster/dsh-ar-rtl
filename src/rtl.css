@@ -82,15 +82,51 @@ html[dir="rtl"] [class*="_markdown_"] :is(ul, ol) {
   padding-right: 18px;
 }
 
-/* --- علامة البند: عادت إلى جهة البداية (اليمين) ---------------------------
- * جرّبنا نقلها إلى **نهاية السطر** (يسار) بإلغاء `::marker` وكتابة `::after` في
- * صف مرن. نجح ذلك في اختبار معزول داخل Chromium، لكنه في التطبيق الحقيقي حذف
- * العلامات كلها: بقي `list-style: none` ولم يُرسم البديل. والسبب الدقيق لم
- * يُعرف بعد، ويحتاج قياساً داخل التطبيق نفسه (قيمة `::after` المحسوبة).
+/* --- علامة البند في أقصى يسار السطر --------------------------------------
+ * طلب صاحب المشروع: أن تقع علامة البند على يسار السطر والنص على يمينه:
+ *     .النص العربي
+ * و`::marker` تُرسم دائماً في جهة البداية (اليمين) ولا يمكن نقلها، فيُلغى رسمها
+ * ويوضع بدلها صندوق `::before` بموضع **مطلق** على حافة البند اليسرى.
  *
- * فحتى يُعرف السبب، تعود العلامة إلى `::marker` في جهة البداية: الحالة التي
- * كانت تعمل وتظهر فيها النقاط والترقيم. ومن أراد نهاية السطر فليُفتح هذا الملف
- * بعد تشخيص السبب لا قبله. */
+ * والموضع المطلق مقصود وليس تفصيلاً: البيان داخل صندوق البند لا يخرج عنه ولا
+ * يُقصّ. وقد جرّبنا قبله صفاً مرناً فحُذفت العلامات كلها في التطبيق الحقيقي (بقي
+ * `list-style: none` بلا بديل ظاهر، والأرجح أن العنصر خرج عن حدود الحاوية فقُصّ)،
+ * ثم قِيس هذا الحل داخل Chromium في عمود بعرض 748px مع `overflow: hidden` —
+ * أي نفس ظروف عمود المحادثة — فظهرت العلامة في أقصى اليسار ولم تُقصّ.
+ *
+ * واستثناءان مقصودان: بند يحوي قائمة متداخلة (تبقى له علامته الأصلية كي لا تهبط
+ * العلامة بعد القائمة)، وبند مهمة (checkbox). */
+
+html[dir="rtl"] [class*="_markdown_"] :is(ul, ol) > li:not(:has(> ul, > ol)):not(.task-list-item) {
+  list-style: none;
+  position: relative;
+  padding-left: 1.4em;
+}
+
+html[dir="rtl"] [class*="_markdown_"] ul > li:not(:has(> ul, > ol)):not(.task-list-item)::before {
+  content: "•";
+}
+
+/* عدّاد خاص بدل `list-item`: تغيير `list-style` يُسقط العدّاد الأصلي. */
+html[dir="rtl"] [class*="_markdown_"] ol {
+  counter-reset: rtl-ol;
+}
+
+html[dir="rtl"] [class*="_markdown_"] ol > li:not(:has(> ul, > ol)):not(.task-list-item) {
+  counter-increment: rtl-ol;
+}
+
+html[dir="rtl"] [class*="_markdown_"] ol > li:not(:has(> ul, > ol)):not(.task-list-item)::before {
+  content: counter(rtl-ol) ".";
+}
+
+html[dir="rtl"] [class*="_markdown_"] li:not(:has(> ul, > ol)):not(.task-list-item)::before {
+  position: absolute;
+  left: 0;
+  top: 0;
+  line-height: 24px;
+  color: var(--dsw-alias-label-secondary, currentColor);
+}
 
 /* The shipped wide-table breakout is physical and does not mirror by itself. */
 html[dir="rtl"] .md-table-wide {
