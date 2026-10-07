@@ -1,4 +1,4 @@
-name: ci
+name: التحقق الآلي
 
 on:
   push:
@@ -8,6 +8,7 @@ on:
 
 jobs:
   verify:
+    name: فحص المستودع
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -16,24 +17,24 @@ jobs:
         with:
           node-version: 20
 
-      - name: Dictionary parity
+      - name: مطابقة القواميس
         run: node tools/validate-ar.mjs --strict
 
-      - name: Rebuild the bundle from source
+      - name: إعادة بناء الحزمة من المصدر
         run: node tools/build-client.mjs
 
-      - name: The committed bundle must match the sources
+      - name: الحزمة الملتزَمة يجب أن تطابق المصادر
         run: git diff --exit-code -- client.js
 
-      - name: Runtime self-test
+      - name: الاختبار الذاتي للحزمة
         run: node tools/selftest.mjs
 
-      - name: The stylesheet must be parse-balanced
+      - name: توازن أقواس الورقة الاتجاهية
         run: |
           node -e "
           const css = require('fs').readFileSync('src/rtl.css', 'utf8');
           const open = (css.match(/{/g) || []).length;
           const close = (css.match(/}/g) || []).length;
-          if (open !== close) { console.error('unbalanced braces:', open, close); process.exit(1); }
-          console.log('balanced braces:', open);
+          if (open !== close) { console.error('أقواس غير متوازنة:', open, close); process.exit(1); }
+          console.log('أقواس متوازنة:', open);
           "

@@ -1,48 +1,54 @@
-# Changelog
+# سجل التغييرات
+
+## 1.0.1
+
+* تحويل وثائق المستودع كاملة إلى العربية: `README.md` و`CHANGELOG.md`
+  و`docs/HOW-IT-WORKS.md`، مع إبقاء الإنجليزية للمصطلحات التقنية وأسماء الملفات والأوامر فقط.
+* أسماء خطوات التحقق الآلي بالعربية لتظهر كذلك في تبويب Actions.
+* تعليقات `.gitignore` و`.gitattributes` بالعربية.
+* إبقاء الملفات التنفيذية (`install.ps1` و`publish.ps1` و`bootstrap.ps1` وملفات `.bat`)
+  إنجليزية عمداً مع شرح السبب في `README.md`: فـWindows PowerShell 5.1 يقرأ السكربت بترميز
+  ANSI عند غياب BOM، و`bootstrap.ps1` لا يقبل BOM لأنه يُنفَّذ عبر `irm … | iex`، و`cmd.exe`
+  يقرأ ملفات `.bat` بترميز النظام.
 
 ## 1.0.0
 
-First public release.
+أول إصدار عام.
 
-### Localization
-* Arabic (`ar`) registered in the DSH locale registry, selectable in
-  **Settings → General → Language** and persisted as `preference: ar`.
-* 58 locale namespaces, 2615 keys, translated to Modern Standard Arabic.
-* Locale-valued keys retargeted per language by inspecting the consuming code:
-  `schedule.*.time.locale` → `ar-u-nu-latn`, while
-  `settings.account.onboardingArtworkLocale` and `sidebarExcel.language` stay
-  `en` on purpose.
-* 165 values carrying technical placeholders (versions, times, zones, exit
-  codes, paths, model ids) fenced with Unicode isolates so they stop reordering
-  inside Arabic sentences.
+### التعريب
+* تسجيل اللغة العربية (`ar`) في سجل لغات التطبيق، فتظهر في
+  **Settings ← General ← Language** وتُحفظ كتفضيل (`preference: ar`).
+* 58 نطاقاً و2615 مفتاحاً مترجمة إلى العربية الفصحى.
+* ضبط مفاتيح معرّفات اللغة بحسب الكود الذي يستهلكها: `schedule.*.time.locale` صارت
+  `ar-u-nu-latn`، بينما `settings.account.onboardingArtworkLocale` و
+  `sidebarExcel.language` بقيتا `en` عن قصد.
+* عزل 165 قيمة تحمل عناصر نائبة تقنية (أرقام إصدارات، أوقات، مناطق زمنية، رموز خروج،
+  مسارات، أسماء نماذج) بمحارف العزل الاتجاهي، فتوقف إرباكها للجمل العربية.
 
-### Direction and bidirectional text
-* The plugin writes `document.documentElement.dir` itself and watches the locale
-  snapshot; the shipped runtime writes only `<html lang>`.
-* `unicode-bidi: plaintext` for transcript prose, message bodies, and text inputs.
-* Code, commands, identifiers, and keyboard shortcuts pinned to LTR.
-* Markdown tables forced right-aligned with `!important`, because the renderer
-  emits an inline `text-align` for `:---` delimiter columns.
+### الاتجاه والنص المختلط
+* الإضافة تكتب `document.documentElement.dir` بنفسها وتراقب تغيّر اللغة، لأن وقت التشغيل
+  المشحون لا يكتب إلا `<html lang>`.
+* `unicode-bidi: plaintext` لفقرات المحادثة ونصوص الرسائل وحقول الإدخال.
+* تثبيت الأكواد والأوامر والمعرّفات واختصارات لوحة المفاتيح على الاتجاه LTR.
+* إجبار خلايا جداول Markdown على المحاذاة لليمين بـ`!important`، لأن المُصيّر يُصدر نمطاً
+  سطرياً عند وجود علامات محاذاة في صف الفواصل.
 
-### Layout
-* 50+ overrides, each derived from the shipped rule that motivates it: composer
-  action row, settings rows and navigation, switches, account card, model and
-  permission pickers, plugin manager, agent preset cards, sidebar, menus.
+### التخطيط
+* أكثر من 50 تجاوزاً، كل واحد منها مبني على نصّ القاعدة المشحونة التي تبرّره: صف أدوات
+  المُحرِّر، وصفوف الإعدادات وتنقّلها، ومفاتيح التفعيل، وبطاقة الحساب، ومحدّدات النموذج
+  والصلاحية، ومدير الإضافات، وبطاقات إعدادات الوكيل، والشريط الجانبي، والقوائم.
 
-### Tooling
-* `tools/build-client.mjs` — bundle generator, no bundler and no network.
-* `tools/selftest.mjs` — 20 assertions on the bundle's runtime behaviour.
-* `tools/validate-ar.mjs` — key/placeholder/newline parity.
-* `tools/refresh-selectors.mjs` — re-derives the hashed CSS class names from a
-  newly installed `app.asar` after a DSH update, with an ambiguity guard.
-* `install.ps1` with `-Update` and `-Uninstall`, plus `install.bat`,
-  `update.bat`, `uninstall.bat`.
-* `bootstrap.ps1` — the `irm … | iex` one-liner.
+### الأدوات
+* `tools/build-client.mjs` — مولّد الحزمة، بلا أي أداة بناء وبلا شبكة.
+* `tools/selftest.mjs` — 20 تحقّقاً على سلوك الحزمة وقت التشغيل.
+* `tools/validate-ar.mjs` — مطابقة المفاتيح والعناصر النائبة وأسطر الفقرات.
+* `tools/refresh-selectors.mjs` — يعيد اكتشاف أسماء الأصناف المُهشَّرة من `app.asar` بعد
+  أي تحديث، مع حارس يمنع إعادة التسمية الخاطئة عند تشابه قاعدتين.
+* `install.ps1` مع `-Update` و`-Uninstall`، ومعها `install.bat` و`update.bat` و`uninstall.bat`.
+* `bootstrap.ps1` — الأمر الواحد `irm … | iex`.
 
-### Known limitations
-* Four experimental plugin names and descriptions stay English: they come from
-  package metadata inside `app.asar`, and `ctx.locale.resolveText` does not
-  consult namespace dictionaries.
-* Arabic plural categories cannot be expressed through single-string
-  dictionaries.
-* Visual overrides target build-hashed class names, hence `update.bat`.
+### قيود معروفة
+* أربعة أسماء إضافات تجريبية ووصفها تبقى إنجليزية، لأنها تُقرأ من بيانات الحزمة داخل
+  `app.asar`، ودالة `ctx.locale.resolveText` لا تستشير قواميس النطاقات.
+* فئات الجمع العربية الست لا يمكن التعبير عنها بقاموس من سلسلة واحدة لكل مفتاح.
+* التصحيحات البصرية تستهدف أسماء أصناف مُهشَّرة بطبيعتها؛ ولهذا وُجد `update.bat`.

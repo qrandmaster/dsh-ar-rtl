@@ -1,36 +1,33 @@
-# How it works
+# كيف تعمل الإضافة
 
-Everything below was verified against a shipped build (`0.2.0-rc.2`, web asset
-`index-BPHePDI_.css`) by reading `app.asar`. Where a claim is an inference it is
-marked as such.
+كل ما في هذا الملف متحقَّق منه مقابل بناء مشحون (`0.2.0-rc.2`، وملف الأنماط
+`index-BPHePDI_.css`) بقراءة `app.asar` مباشرة، وما كان استنتاجاً نُصّ على أنه استنتاج.
 
-## 1. Why a plugin is needed at all
+## 1. لماذا نحتاج إضافة أصلاً؟
 
-DSH ships exactly two locales (`LOCALE_IDS = ["zh", "en"]`) and its locale
-registry owns selection, persistence, browser matching, key fallback and
-`<html lang>` — nothing else. The registry's own README says it "does not add
-plural rules or bidirectional layout", and that is literal:
+يشحن التطبيق لغتين فقط: `LOCALE_IDS = ["zh", "en"]`. وسجل اللغات فيه يتولّى الاختيار
+والحفظ ومطابقة لغة المتصفح والرجوع بين المفاتيح و`<html lang>` — ولا شيء غير ذلك. وتوثيق
+السجل نفسه يقول إنه «لا يضيف قواعد جمع ولا **تخطيطاً ثنائي الاتجاه**»، وهذا كلام حرفي:
 
-* `LanguageRegistration` is `{ id, label, fallback }` — **no direction field**.
-* `normalizeLanguage()` validates and freezes exactly those three keys.
-* The only document mutation is `syncDocumentLanguage()`, which writes
-  `<html lang>` and nothing else.
-* A whole-archive search finds no `direction:` (outside `flex-direction`), no
-  `unicode-bidi`, and **no app code that ever reads or writes a `dir`
-  attribute**. The RTL hits in the archive belong to `pdf.js`, `LuckySheet`, and
-  RFC 5893 bidi handling for hostnames.
+* نوع `LanguageRegistration` هو `{ id, label, fallback }` — **بلا أي حقل للاتجاه**.
+* ودالة `normalizeLanguage()` تتحقق من هذه المفاتيح الثلاثة وتجمّدها، لا أكثر.
+* والتعديل الوحيد الذي يجريه السجل على المستند هو `syncDocumentLanguage()`، وهي تكتب
+  `<html lang>` فقط.
+* وبمسح الأرشيف كله لا نجد `direction:` (خارج `flex-direction`)، ولا `unicode-bidi`،
+  و**لا كود واحد في التطبيق يقرأ `dir` أو يكتبه**. وكل مطابقات RTL في الأرشيف تعود إلى
+  `pdf.js` و`LuckySheet` وإلى معالجة أسماء النطاقات وفق RFC 5893.
 
-So the interface is always LTR, which is what makes mixed Arabic/English lines
-reorder.
+فالواجهة إذاً تعمل دائماً باتجاه LTR، وهذا هو سبب إعادة ترتيب الأسطر التي تجمع العربية
+بالإنجليزية.
 
-## 2. Adding a language
+## 2. كيف نضيف لغة؟
 
-`ctx.locale.addLanguage({ id, label, fallback })` registers a BCP 47-style tag.
-The fallback chain must terminate at `en`, so `{ id: 'ar', label: 'العربية',
-fallback: 'en' }` is accepted and the selector gains an entry.
+`ctx.locale.addLanguage({ id, label, fallback })` تسجّل وسم لغة بصيغة BCP 47، ويجب أن
+تنتهي سلسلة الرجوع عند `en`، لذلك يُقبل `{ id: 'ar', label: 'العربية', fallback: 'en' }`
+ويظهر مدخل عربي في قائمة اللغات.
 
-Dictionaries use `ctx.locale.register(namespace, locale, dict)`. The runtime
-only rejects a duplicate **pair**:
+أما القواميس فتُسجَّل بـ`ctx.locale.register(namespace, locale, dict)`، والوقت التشغيلي
+لا يرفض إلا **الزوج** المكرَّر:
 
 ```js
 for (const [locale] of pairs)
@@ -38,100 +35,89 @@ for (const [locale] of pairs)
     throw new Error(`locale namespace "${ns}" already has locale "${locale}"`);
 ```
 
-A shipped namespace therefore has `en` and `zh` occupied but `ar` free — which
-is why an external plugin can translate the *shipped* UI without touching the
-application. This is the single most important discovery behind the project, and
-it contradicts a natural reading of the docs ("a namespace's texts have one
-owner" is per locale pair, not per namespace).
+فالمساحة المشحونة مشغولة باللغتين `en` و`zh`، والعربية فيها **حرة** — ولهذا تستطيع إضافة
+خارجية ترجمة نصوص التطبيق نفسه بلا لمس التطبيق. هذه أهم نقطة اكتُشفت في المشروع كله، وهي
+تخالف القراءة السطحية للتوثيق: عبارة «نصوص المساحة لها مالك واحد» تعني الزوج (مساحة، لغة)
+لا المساحة وحدها.
 
-## 3. Owning `dir`
+## 3. مَن يملك `dir`؟
 
-Because nothing else writes it, the plugin sets
-`document.documentElement.dir = active === 'ar' ? 'rtl' : 'ltr'` and subscribes
-to the locale snapshot. The stylesheet is injected with the shipped pattern:
+لأن لا أحد غيرنا يكتبه، تضبط الإضافة
+`document.documentElement.dir = active === 'ar' ? 'rtl' : 'ltr'`، وتشترك في تغيّرات لقطة
+اللغة. وتُحقن ورقة الأنماط بالطريقة المشحونة نفسها:
 
 ```js
 const tag = document.createElement('style');
-tag.dataset.plugin = PLUGIN_ID;        // claimed and tracked by dsh-client-modules
+tag.dataset.plugin = PLUGIN_ID;        // يسجّلها dsh-client-modules ويتتبّعها
 tag.dataset.pluginCss = CSS_TAG_ID;
 document.head.appendChild(tag);
 ```
 
-Plugin styles land after the shell's stylesheet links, so an equal-specificity
-`html[dir="rtl"] .x` (0,2,1) beats a shipped single-class rule (0,1,0).
+وورقة الإضافة تُضاف **بعد** أوراق التطبيق، فقاعدة مثل `html[dir="rtl"] .x` بوزن (0,2,1)
+تتغلّب على قاعدة مشحونة بصنف واحد بوزن (0,1,0).
 
-## 4. Bidirectional text, two layers
+## 4. النص ثنائي الاتجاه: طبقتان
 
-**Layout layer (CSS).** `unicode-bidi: plaintext` on transcript prose applies the
-Unicode First-Strong-Character rule per paragraph: Arabic paragraphs run RTL, an
-all-Latin line stays LTR. Code, commands, identifiers and shortcuts are pinned
-to `direction: ltr; unicode-bidi: isolate`.
+**طبقة التخطيط (CSS).** `unicode-bidi: plaintext` على فقرات المحادثة تطبّق قاعدة «أول محرف
+قوي» على كل فقرة: الفقرة العربية تمضي من اليمين، والسطر اللاتيني الخالص يبقى من اليسار.
+وتُثبَّت الأكواد والأوامر والمعرّفات والاختصارات على `direction: ltr; unicode-bidi: isolate`.
 
-**Content layer (dictionary values).** Even with `plaintext`, a value like
-`إصابة الذاكرة المؤقتة {percent}%` renders as `%98` in an RTL paragraph, because
-`%` is a neutral character that takes the paragraph direction. The fix lives in
-the translation itself: 165 values fence their technical placeholders with
-`U+2068` (FSI, first-strong isolate) and `U+2069` (PDI). FSI is the correct
-choice over LRI because the value's direction is unknown at authoring time — a
-version string must read LTR, an interpolated session name may be Arabic.
+**طبقة المحتوى (قيم القواميس).** حتى مع `plaintext`، قيمة مثل
+`إصابة الذاكرة المؤقتة {percent}%` تُرسم `%98` داخل فقرة عربية، لأن `%` محرف **محايد**
+يأخذ اتجاه الفقرة. والحل يسكن في الترجمة نفسها: 165 قيمة تُطوّق عناصرها النائبة التقنية
+بـ`U+2068` (FSI، عزل بأول محرف قوي) و`U+2069` (PDI). واختيار FSI بدل LRI هو الصحيح لأن
+اتجاه القيمة غير معروف وقت الكتابة: رقم الإصدار يجب أن يُقرأ من اليسار، واسم جلسة مُدرَج
+قد يكون عربياً.
 
-Markdown tables needed `!important` for a different reason: the renderer emits
-an **inline** `text-align` for a `:---` delimiter column, and an inline style
-outranks any plain stylesheet rule. Both the CSS override and a convention
-("never write alignment markers in Arabic tables") are in place, because the CSS
-only travels where the plugin is installed while the marker travels with the
-text.
+أما جداول Markdown فاحتاجت `!important` لسبب مختلف: المُصيّر يُصدر `text-align` **كنمط
+سطري** عند وجود علامة محاذاة في صف الفواصل، والنمط السطري يتقدّم على أي قاعدة في ورقة
+الأنماط. ولذلك وُجد الإصلاحان معاً: قاعدة CSS، وقاعدة على المحتوى («لا تكتب علامات محاذاة
+في جدول عربي»)، لأن CSS يسافر حيث تُثبَّت الإضافة، أما العلامة فتسافر مع النص.
 
-## 5. Layout overrides, and why each one is quoted
+## 5. تجاوزات التخطيط، ولماذا كل واحد منها منقول لا مُخمَّن
 
-Every rule in `src/rtl.css` names the shipped rule that motivates it, because the
-obvious guess is often wrong. Examples found this way:
+كل قاعدة في `src/rtl.css` يذكر تعليقُها القاعدةَ المشحونة التي تبرّرها، لأن التخمين
+الطبيعي كثيراً ما يكون خاطئاً. أمثلة اكتُشفت بهذه الطريقة:
 
-| Symptom | Shipped cause |
+| العَرَض | السبب المشحون |
 |---|---|
-| send button floating mid-row with an empty gap | `.RlGAzG_trailing{…;margin-left:auto}` — a physical auto margin |
-| settings rows indented 74px | `padding-right:48px` repeated in **six** separate CSS modules |
-| switch looked broken only while enabled | `[aria-checked=true] .thumb{transform:translate(16px)}` — physical +X travel |
-| settings label stranded from its icon | `.wCInkW_navCell{…;text-align:left}` with `.navLabel{flex:1}` |
-| account arrow pointing the wrong way | `IconRightUpOutlineRegular` renders ↗ unconditionally |
+| زر الإرسال يقف وسط الصف وفراغ كبير على اليسار | `.RlGAzG_trailing{…;margin-left:auto}` — هامش تلقائي فيزيائي |
+| صفوف الإعدادات مُزاحة 74 بكسل | `padding-right:48px` مكرّرة في **ستة** ملفات CSS مستقلة |
+| مفتاح التفعيل يبدو معطوباً عند التفعيل فقط | `[aria-checked=true] .thumb{transform:translate(16px)}` — إزاحة فيزيائية موجبة |
+| تسمية الإعدادات بعيدة عن أيقونتها | `.wCInkW_navCell{…;text-align:left}` مع `.navLabel{flex:1}` |
+| سهم بطاقة الحساب يشير إلى الجهة الخطأ | المكوّن `IconRightUpOutlineRegular` يرسم ↗ دائماً |
 
-Two things were deliberately *not* touched: the right-panel icons already carry
-`transform: scaleX(-1)` (un-mirroring them would double the flip), and the
-account card's button row already mirrors correctly through
+وتركنا أمرين عن قصد: أيقونتا اللوحة اليمنى تحملان `transform: scaleX(-1)` أصلاً (فعكسهما
+مرة أخرى يُلغي الانعكاس)، وصف أزرار بطاقة الحساب ينعكس صحيحاً بالفعل عبر
 `justify-content: space-between`.
 
-## 6. Surviving updates
+## 6. كيف تصمد الإضافة أمام التحديثات
 
-CSS-module class names are build-time hashes (`RlGAzG_trailing`,
-`_switch_1ik0f_5`), so they change on every DSH build. Everything keyed to them
-breaks silently after an update, while everything keyed to literal hooks
-(`data-*` attributes, `md-code-block`, `[data-code-block-content]`, `.md-table-wide`)
-keeps working.
+أسماء الأصناف في وحدات CSS الخاصة بالتطبيق بصمات بناء (`RlGAzG_trailing`،
+`_switch_1ik0f_5`)، فتتغيّر مع كل بناء. وكل ما يعتمد عليها ينكسر صامتاً بعد التحديث، أما
+ما يعتمد على محدّدات حرفية (`data-*`، و`md-code-block`، و`[data-code-block-content]`،
+و`.md-table-wide`) فيبقى يعمل.
 
-`tools/refresh-selectors.mjs` closes that gap: for each fixed component it holds
-a **rule-body signature** rather than a remembered class name — for example
-`_trailing\{[^}]*margin-left:auto\}` — scans the newly installed `app.asar`,
-captures the current prefix, and rewrites `src/rtl.css`. It also collects every
-prefix carrying `padding-right:48px` as a group, so new settings rows are picked
-up automatically. When a signature matches a sibling component's identical rule
-body it reports the ambiguity instead of rewriting (this guard was added after
-the tool renamed a permission-picker selector to the model picker's prefix).
+و`tools/refresh-selectors.mjs` يسدّ هذه الثغرة: فهو يحتفظ لكل مكوّن بـ**بصمة متن القاعدة**
+لا باسم صنف محفوظ — مثل `_trailing\{[^}]*margin-left:auto\}` — ثم يمسح `app.asar` الجديد،
+ويلتقط البادئة الحالية، ويعيد كتابة `src/rtl.css`. ويجمع كذلك كل بادئة تحمل
+`padding-right:48px` كمجموعة واحدة، فتُلتقط صفوف الإعدادات الجديدة تلقائياً. وإذا طابقت
+البصمةُ قاعدةَ مكوّن شقيق مطابقة، يصرّح بالالتباس بدل أن يعيد الكتابة (وقد أُضيف هذا الحارس
+بعد أن أعادت الأداة تسمية محدّد محدّد الصلاحية إلى بادئة محدّد النموذج).
 
-## 7. Packaging
+## 7. التغليف
 
-A client plugin is a package with `dsh.client.platform === 'web'` and an
-`exports["./client"]` bundle. The host serves that file as-is, and its only
-requirement is that the bundle registers a lazy factory:
+إضافة العميل حزمة فيها `dsh.client.platform === 'web'` وحقل `exports["./client"]` يشير إلى
+حزمة المتصفح. والخادم يقدّم ذلك الملف كما هو، وشرطه الوحيد أن تسجّل الحزمة مصنعاً مؤجَّلاً:
 
 ```js
-window.__ModuleLoader__.load({ id: '<package name>', factory(require) { … } });
+window.__ModuleLoader__.load({ id: '<اسم الحزمة>', factory(require) { … } });
 ```
 
-That is why there is no bundler, no TypeScript, and no build toolchain in this
-repository: `client.js` is generated by string assembly in
-`tools/build-client.mjs`, and the three DSH files it needs are produced by
-`install.ps1`:
+ولهذا لا توجد في المستودع أي أداة بناء ولا TypeScript ولا سلسلة تجميع: ملف `client.js`
+يُولَّد بدمج نصوص في `tools/build-client.mjs`، والملفات الثلاثة التي يحتاجها التطبيق
+ينتجها `install.ps1`:
 
-* `…/profiles/desktop/plugins/dsh-ar-rtl/` — the package
-* one `insert` row in `…/profiles/desktop/cordis.patch.yml`
-* nothing else; no `node_modules`, no pnpm, no network
+* مجلد الحزمة `…/profiles/desktop/plugins/dsh-ar-rtl/`
+* صف `insert` واحد في `…/profiles/desktop/cordis.patch.yml`
+* ولا شيء غير ذلك: بلا `node_modules`، وبلا pnpm، وبلا شبكة أثناء التثبيت

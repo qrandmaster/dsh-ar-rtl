@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-  Prepares this folder as a GitHub repository and optionally pushes it.
+  Prepare this folder as a GitHub repository and optionally push it.
 
 .DESCRIPTION
   Fills the repository placeholders (__OWNER__/__REPO__ in bootstrap.ps1 and
@@ -11,6 +11,12 @@
   Create the empty repository on GitHub first (no README, no licence), then run:
 
     powershell -ExecutionPolicy Bypass -File scripts\publish.ps1 -Owner you -Repo dsh-ar-rtl -Push
+
+  NOTE ON LANGUAGE: this file is deliberately ASCII-only, like install.ps1 and
+  the .bat wrappers. Windows PowerShell 5.1 reads a script without a UTF-8 BOM
+  using the ANSI code page, so Arabic text here would print as mojibake. All
+  documentation in this repository is Arabic; the running scripts stay English
+  on purpose.
 
 .PARAMETER Owner
   GitHub user or organisation that owns the new repository.
@@ -43,7 +49,7 @@ param(
   [string]$Author,
   [string]$AuthorEmail,
   [string]$Ref = 'main',
-  [string]$Message = 'Release v1.0.0: Arabic (RTL) locale for the DeepSeek Harness Web GUI',
+  [string]$Message = 'Release v1.0.1: Arabic documentation for the repository',
   [switch]$Push,
   [switch]$DryRun
 )
@@ -61,7 +67,7 @@ function Set-Placeholders {
   if (-not (Test-Path -LiteralPath $path)) { Write-Host "skip (missing): $RelativePath"; return }
   # Explicit UTF-8 through .NET: Windows PowerShell 5.1 reads and writes with the
   # ANSI code page by default, which silently turns every Arabic character in
-  # README.md and bootstrap.ps1 into mojibake. That happened once; never again.
+  # README.md into mojibake. That happened once; never again.
   $utf8 = New-Object Text.UTF8Encoding($false)
   $original = [IO.File]::ReadAllText($path, $utf8)
   $updated = $original.

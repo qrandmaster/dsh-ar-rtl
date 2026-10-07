@@ -1,11 +1,11 @@
-# Research artifacts: English UI strings extracted from the installed build for
-# validation. They are intentionally not redistributed.
+# مجلد الجرد البحثي: نصوص الواجهة الإنجليزية المستخرجة من البناء المثبّت للتحقق.
+# لا يُعاد نشرها عن قصد.
 inventory/
 
-# Generated distribution packages.
+# حزم التوزيع المولَّدة.
 dist/
 
-# Local tooling noise.
+# مخلفات أدوات محلية.
 node_modules/
 *.log
 .DS_Store

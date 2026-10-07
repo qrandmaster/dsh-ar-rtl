@@ -1,6 +1,6 @@
-# Keep the repository newline-stable across platforms.
+# تثبيت أسطر الملفات كي لا تتبدّل بين الأنظمة.
 * text=auto eol=lf
 
-# Windows command scripts must keep CRLF: cmd.exe can mis-handle LF in labels.
+# ملفات أوامر ويندوز يجب أن تبقى بـCRLF: فـcmd.exe قد يخطئ في التعامل مع LF داخل التسميات.
 *.bat text eol=crlf
 *.cmd text eol=crlf

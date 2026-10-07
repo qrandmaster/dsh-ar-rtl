@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-  Installs, updates, or removes the Arabic (RTL) client plugin for the DSH Web GUI.
+  Install, update, or remove the Arabic (RTL) client plugin for the DSH Web GUI.
 
 .DESCRIPTION
   The plugin lives entirely outside the application, in the user profile:
@@ -12,6 +12,12 @@
   survives it. What can break after an update is the *hashed* CSS-module class
   names that the RTL overrides target; -Update re-derives them from the newly
   installed app.asar, rebuilds the bundle, and redeploys it.
+
+  NOTE ON LANGUAGE: this file is deliberately ASCII-only. Windows PowerShell
+  5.1 -- the interpreter behind a double-clicked .bat -- reads a script without
+  a UTF-8 BOM using the ANSI code page, so Arabic text here would print as
+  mojibake. All documentation in this repository is Arabic; the running scripts
+  stay English on purpose.
 
 .PARAMETER Uninstall
   Removes the loader row and the installed package.
@@ -28,6 +34,9 @@
 
 .PARAMETER DshHome
   DSH home directory. Default: $env:DSH_HOME, else %USERPROFILE%\.dsh.
+
+.PARAMETER DryRun
+  Show what would happen without writing anything.
 
 .EXAMPLE
   powershell -ExecutionPolicy Bypass -File install.ps1
@@ -225,6 +234,6 @@ Add-LoaderRow
 Write-Host ''
 Write-Host "Installed to: $target"
 Write-Host 'Next: reload http://127.0.0.1:19387 (restart DSH if the language list is unchanged),'
-Write-Host 'then choose Settings -> General -> Language and pick the Arabic entry.'
+Write-Host 'then open Settings - General - Language and pick the Arabic entry.'
 Write-Host ''
 Write-Host 'After a DSH update run:  install.bat -Update'
