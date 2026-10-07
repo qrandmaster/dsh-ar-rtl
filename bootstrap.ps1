@@ -10,7 +10,7 @@
 
   Or, to pass parameters, wrap it in a script block:
 
-    & ([scriptblock]::Create((irm https://raw.githubusercontent.com/qrandmaster/dsh-ar-rtl/main/bootstrap.ps1))) -Ref v1.0.0
+    & ([scriptblock]::Create((irm https://raw.githubusercontent.com/qrandmaster/dsh-ar-rtl/main/bootstrap.ps1))) -Ref v1.0.4
 
   The script is deliberately ASCII-only and avoids every non-ASCII character, so
   Windows PowerShell 5.1 (the interpreter behind a double-clicked .bat) reads it

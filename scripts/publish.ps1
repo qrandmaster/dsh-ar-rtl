@@ -49,7 +49,7 @@ param(
   [string]$Author,
   [string]$AuthorEmail,
   [string]$Ref = 'main',
-  [string]$Message = 'Release v1.0.1: Arabic documentation for the repository',
+  [string]$Message = 'Release: Arabic (RTL) locale and layout fixes for the DSH Web GUI',
   [switch]$Push,
   [switch]$DryRun
 )
