@@ -7,6 +7,7 @@
  * from the authored sources:
  *
  *   src/rtl.css          -> the stylesheet text the plugin injects
+ *   src/effort-ar.js     -> page-level Arabic for catalog-owned labels
  *   ar/<namespace>.json  -> Arabic dictionaries, one file per locale namespace
  *
  * The namespace list comes from `inventory/_index.json` when that research
@@ -27,6 +28,12 @@ const pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'));
 const PLUGIN_ID = pkg.name;
 
 const css = readFileSync(join(root, 'src', 'rtl.css'), 'utf8');
+
+/**
+ * أسماء جهد الاستدلال تصل من كتالوج المزوّد كبيانات لا كمفاتيح ترجمة، فتُعرَّب
+ * بطبقة في الصفحة داخل هذا الملف (انظر src/effort-ar.js لسبب ذلك وحدوده).
+ */
+const effortPatch = readFileSync(join(root, 'src', 'effort-ar.js'), 'utf8');
 
 /**
  * بصمة الورقة الاتجاهية: تُطبع في تشخيص الإضافة كي يُعرف بنظرة واحدة أي نسخة من
@@ -62,7 +69,7 @@ for (const { ns, fileName } of namespaces) {
 
 const banner = `/**
  * GENERATED FILE — do not edit directly.
- * Sources: src/rtl.css, ar/*.json. Regenerate with: node tools/build-client.mjs
+ * Sources: src/rtl.css, src/effort-ar.js, ar/*.json. Regenerate with: node tools/build-client.mjs
  */`;
 
 const artifact = `${banner}
@@ -73,6 +80,8 @@ window.__ModuleLoader__.load({
     const CSS_TAG_ID = ${JSON.stringify(`${PLUGIN_ID}/rtl.css`)};
     const DICTIONARIES = ${JSON.stringify(dictionaries, null, 2)};
     const ARABIC_ID = "ar";
+
+${effortPatch}
 
     function injectStyles() {
       if (typeof document === "undefined") return;
@@ -142,9 +151,19 @@ window.__ModuleLoader__.load({
         }
 
         ctx.effect(() => {
-          syncDirection(ctx.locale.getSnapshot());
-          return ctx.locale.subscribe(syncDirection);
-        }, ${JSON.stringify(`${PLUGIN_ID}: direction`)});
+          let disposeEffort = () => {};
+          const update = (snapshot) => {
+            syncDirection(snapshot);
+            disposeEffort();
+            disposeEffort = isArabic(snapshot && snapshot.active) ? installEffortArabic() : () => {};
+          };
+          update(ctx.locale.getSnapshot());
+          const unsubscribe = ctx.locale.subscribe(update);
+          return () => {
+            unsubscribe();
+            disposeEffort();
+          };
+        }, ${JSON.stringify(`${PLUGIN_ID}: direction and catalog labels`)});
       },
     };
   },
