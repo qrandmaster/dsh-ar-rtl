@@ -35,12 +35,13 @@ html[dir="rtl"] #root {
  * وترتيب المقاطع المختلطة يتكفّل به محرّك bidi مع قاعدة RTL، ومع محارف العزل
  * (U+2068 … U+2069) المثبَّتة حول القيم التقنية في القواميس. */
 
+html[dir="rtl"] [class*="_markdown_"] :is(p, h1, h2, h3, h4, h5, h6, blockquote, dt, dd, td, th),
 html[dir="rtl"] [data-conversation-region="chat"] [data-chat-flow] :is(p, h1, h2, h3, h4, h5, h6, blockquote, dt, dd, td, th),
 html[dir="rtl"] [data-markdown-variant],
 html[dir="rtl"] .md-table-wide,
 html[dir="rtl"] [data-message-attachments],
 html[dir="rtl"] [data-turn-process-answer] {
-  unicode-bidi: normal;
+  unicode-bidi: normal !important;
   text-align: start;
 }
 
@@ -52,24 +53,33 @@ html[dir="rtl"] [data-turn-process-answer] {
  *
  * مساحة العلامة محجوزة فيزيائياً على اليسار بـ18px، والعلامة في قائمة عربية
  * تُرسم على اليمين؛ فتُنقل الحشوة إلى جهة البداية، ويُثبَّت اتجاه البند صريحاً كي
- * لا تتبع علامتُه لغةَ أول كلمة فيه — عربية كانت أو إنجليزية. */
+ * لا تتبع علامتُه لغةَ أول كلمة فيه — عربية كانت أو إنجليزية.
+ *
+ * وسبب عدم تقييد هذه القواعد بسياق المحادثة: المُصيّر يضع `data-markdown-variant`
+ * **للنسخة المضغوطة وحدها**، وصف `data-chat-flow` ليس ضماناً في كل موضع يُعرض فيه
+ * markdown (المحادثة، وملخص الضغط، ومعاينات الملفات). والقوائم في هذا التطبيق كلها
+ * قوائم markdown، فالمحدّد العام أصدق وأثبت. أما مساحة العلامة فتُقيَّد بالجذر
+ * الحقيقي عبر `[class*="_markdown_"]` وهو بادئة ثابتة لا يتغيّر هاشُها. */
 
-html[dir="rtl"] [data-conversation-region="chat"] [data-chat-flow] :is(ul, ol) {
+html[dir="rtl"] :is(ul, ol) {
   direction: rtl;
   text-align: right;
+}
+
+html[dir="rtl"] li {
+  direction: rtl;
+  unicode-bidi: normal !important;
+  text-align: right;
+}
+
+html[dir="rtl"] li::marker {
+  direction: rtl;
+  unicode-bidi: normal;
+}
+
+html[dir="rtl"] [class*="_markdown_"] :is(ul, ol) {
   padding-left: 0;
   padding-right: 18px;
-}
-
-html[dir="rtl"] [data-conversation-region="chat"] [data-chat-flow] li {
-  direction: rtl;
-  unicode-bidi: normal;
-  text-align: right;
-}
-
-html[dir="rtl"] [data-conversation-region="chat"] [data-chat-flow] li::marker {
-  direction: rtl;
-  unicode-bidi: normal;
 }
 
 /* The shipped wide-table breakout is physical and does not mirror by itself. */
