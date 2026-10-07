@@ -1,122 +1,122 @@
-# DeepSeek Harness — Arabic (RTL) locale
+﻿# DeepSeek Harness â€” Arabic (RTL) locale
 
 Unofficial Arabic localization **and** real right-to-left support for the
-DeepSeek Harness Web GUI — the interface ships English and Chinese only, with no
+DeepSeek Harness Web GUI â€” the interface ships English and Chinese only, with no
 direction support whatsoever.
 
 * **One command install**, no Node needed, no network during install
-* **58 locale namespaces · 2615 keys** translated to Modern Standard Arabic
+* **58 locale namespaces آ· 2615 keys** translated to Modern Standard Arabic
 * **True RTL**: the plugin owns `dir="rtl"`, since no shipped code ever sets it
 * **Correct bidirectional text**: mixed Arabic/English lines stop reordering
 * **Code stays LTR**: fenced blocks, inline code, commands, keyboard shortcuts
 * **Survives DSH updates**, with a one-click maintenance script for the parts that cannot
 
 ```powershell
-irm https://raw.githubusercontent.com/__OWNER__/__REPO__/main/bootstrap.ps1 | iex
+irm https://raw.githubusercontent.com/qrandmaster/dsh-ar-rtl/main/bootstrap.ps1 | iex
 ```
 
-Then reload the GUI and pick **Settings → General → Language → العربية**.
+Then reload the GUI and pick **Settings â†’ General â†’ Language â†’ ط§ظ„ط¹ط±ط¨ظٹط©**.
 
 ---
 
-## العربية
+## ط§ظ„ط¹ط±ط¨ظٹط©
 
-إضافة غير رسمية تضيف **تعريباً كاملاً ودعماً حقيقياً للاتجاه من اليمين إلى اليسار** لواجهة
-DeepSeek Harness، التي تُشحن بالإنجليزية والصينية فقط وبلا أي دعم اتجاه.
+ط¥ط¶ط§ظپط© ط؛ظٹط± ط±ط³ظ…ظٹط© طھط¶ظٹظپ **طھط¹ط±ظٹط¨ط§ظ‹ ظƒط§ظ…ظ„ط§ظ‹ ظˆط¯ط¹ظ…ط§ظ‹ ط­ظ‚ظٹظ‚ظٹط§ظ‹ ظ„ظ„ط§طھط¬ط§ظ‡ ظ…ظ† ط§ظ„ظٹظ…ظٹظ† ط¥ظ„ظ‰ ط§ظ„ظٹط³ط§ط±** ظ„ظˆط§ط¬ظ‡ط©
+DeepSeek HarnessطŒ ط§ظ„طھظٹ طھظڈط´ط­ظ† ط¨ط§ظ„ط¥ظ†ط¬ظ„ظٹط²ظٹط© ظˆط§ظ„طµظٹظ†ظٹط© ظپظ‚ط· ظˆط¨ظ„ط§ ط£ظٹ ط¯ط¹ظ… ط§طھط¬ط§ظ‡.
 
-### ما تضيفه
+### ظ…ط§ طھط¶ظٹظپظ‡
 
-| المكوّن | التفصيل |
+| ط§ظ„ظ…ظƒظˆظ‘ظ† | ط§ظ„طھظپطµظٹظ„ |
 |---|---|
-| لغة «العربية» | مسجّلة في سجل اللغات، وتُحفظ كتفضيل (`preference: ar`) |
-| الاتجاه RTL | لا كود في DSH يكتب `dir` إطلاقاً؛ الإضافة تكتبه وتراقب تغيّر اللغة |
-| النصوص | 58 نطاقاً و2615 مفتاحاً بالعربية الفصحى |
-| النص المختلط | `unicode-bidi: plaintext` للفقرات، وعزل اتجاهي لـ165 قيمة تقنية |
-| الأكواد | تبقى LTR: الكتل والأوامر والاختصارات والمسارات |
-| التخطيط | أكثر من 50 تجاوزاً مبنياً على نصوص قواعد DSH المشحونة، لا على تخمين |
+| ظ„ط؛ط© آ«ط§ظ„ط¹ط±ط¨ظٹط©آ» | ظ…ط³ط¬ظ‘ظ„ط© ظپظٹ ط³ط¬ظ„ ط§ظ„ظ„ط؛ط§طھطŒ ظˆطھظڈط­ظپط¸ ظƒطھظپط¶ظٹظ„ (`preference: ar`) |
+| ط§ظ„ط§طھط¬ط§ظ‡ RTL | ظ„ط§ ظƒظˆط¯ ظپظٹ DSH ظٹظƒطھط¨ `dir` ط¥ط·ظ„ط§ظ‚ط§ظ‹ط› ط§ظ„ط¥ط¶ط§ظپط© طھظƒطھط¨ظ‡ ظˆطھط±ط§ظ‚ط¨ طھط؛ظٹظ‘ط± ط§ظ„ظ„ط؛ط© |
+| ط§ظ„ظ†طµظˆطµ | 58 ظ†ط·ط§ظ‚ط§ظ‹ ظˆ2615 ظ…ظپطھط§ط­ط§ظ‹ ط¨ط§ظ„ط¹ط±ط¨ظٹط© ط§ظ„ظپطµط­ظ‰ |
+| ط§ظ„ظ†طµ ط§ظ„ظ…ط®طھظ„ط· | `unicode-bidi: plaintext` ظ„ظ„ظپظ‚ط±ط§طھطŒ ظˆط¹ط²ظ„ ط§طھط¬ط§ظ‡ظٹ ظ„ظ€165 ظ‚ظٹظ…ط© طھظ‚ظ†ظٹط© |
+| ط§ظ„ط£ظƒظˆط§ط¯ | طھط¨ظ‚ظ‰ LTR: ط§ظ„ظƒطھظ„ ظˆط§ظ„ط£ظˆط§ظ…ط± ظˆط§ظ„ط§ط®طھطµط§ط±ط§طھ ظˆط§ظ„ظ…ط³ط§ط±ط§طھ |
+| ط§ظ„طھط®ط·ظٹط· | ط£ظƒط«ط± ظ…ظ† 50 طھط¬ط§ظˆط²ط§ظ‹ ظ…ط¨ظ†ظٹط§ظ‹ ط¹ظ„ظ‰ ظ†طµظˆطµ ظ‚ظˆط§ط¹ط¯ DSH ط§ظ„ظ…ط´ط­ظˆظ†ط©طŒ ظ„ط§ ط¹ظ„ظ‰ طھط®ظ…ظٹظ† |
 
-### التثبيت السريع
+### ط§ظ„طھط«ط¨ظٹطھ ط§ظ„ط³ط±ظٹط¹
 
-شغّل في PowerShell:
+ط´ط؛ظ‘ظ„ ظپظٹ PowerShell:
 
 ```powershell
-irm https://raw.githubusercontent.com/__OWNER__/__REPO__/main/bootstrap.ps1 | iex
+irm https://raw.githubusercontent.com/qrandmaster/dsh-ar-rtl/main/bootstrap.ps1 | iex
 ```
 
-ثم أعد تحميل `http://127.0.0.1:19387`، وإن لم تظهر «العربية» في قائمة اللغة فأعد تشغيل تطبيق DSH.
+ط«ظ… ط£ط¹ط¯ طھط­ظ…ظٹظ„ `http://127.0.0.1:19387`طŒ ظˆط¥ظ† ظ„ظ… طھط¸ظ‡ط± آ«ط§ظ„ط¹ط±ط¨ظٹط©آ» ظپظٹ ظ‚ط§ط¦ظ…ط© ط§ظ„ظ„ط؛ط© ظپط£ط¹ط¯ طھط´ط؛ظٹظ„ طھط·ط¨ظٹظ‚ DSH.
 
-### التثبيت اليدوي
+### ط§ظ„طھط«ط¨ظٹطھ ط§ظ„ظٹط¯ظˆظٹ
 
-1. نزّل هذا المستودع (زر Code ثم Download ZIP) وفكّ الضغط.
-2. انقر `install.bat` نقراً مزدوجاً.
-3. أعد تحميل الواجهة، ثم **Settings → General → Language → العربية**.
+1. ظ†ط²ظ‘ظ„ ظ‡ط°ط§ ط§ظ„ظ…ط³طھظˆط¯ط¹ (ط²ط± Code ط«ظ… Download ZIP) ظˆظپظƒظ‘ ط§ظ„ط¶ط؛ط·.
+2. ط§ظ†ظ‚ط± `install.bat` ظ†ظ‚ط±ط§ظ‹ ظ…ط²ط¯ظˆط¬ط§ظ‹.
+3. ط£ط¹ط¯ طھط­ظ…ظٹظ„ ط§ظ„ظˆط§ط¬ظ‡ط©طŒ ط«ظ… **Settings â†’ General â†’ Language â†’ ط§ظ„ط¹ط±ط¨ظٹط©**.
 
-### الصيانة والإزالة
+### ط§ظ„طµظٹط§ظ†ط© ظˆط§ظ„ط¥ط²ط§ظ„ط©
 
-| الأمر | الدور |
+| ط§ظ„ط£ظ…ط± | ط§ظ„ط¯ظˆط± |
 |---|---|
-| `update.bat` | بعد كل تحديث لـ DSH: يعيد اكتشاف أسماء الأصناف المُهشَّرة، ويعيد البناء، وينشر |
-| `uninstall.bat` | إزالة كاملة (الصف + الحزمة) |
-| `install.bat` | تثبيت أو إعادة تثبيت |
+| `update.bat` | ط¨ط¹ط¯ ظƒظ„ طھط­ط¯ظٹط« ظ„ظ€ DSH: ظٹط¹ظٹط¯ ط§ظƒطھط´ط§ظپ ط£ط³ظ…ط§ط، ط§ظ„ط£طµظ†ط§ظپ ط§ظ„ظ…ظڈظ‡ط´ظژظ‘ط±ط©طŒ ظˆظٹط¹ظٹط¯ ط§ظ„ط¨ظ†ط§ط،طŒ ظˆظٹظ†ط´ط± |
+| `uninstall.bat` | ط¥ط²ط§ظ„ط© ظƒط§ظ…ظ„ط© (ط§ظ„طµظپ + ط§ظ„ط­ط²ظ…ط©) |
+| `install.bat` | طھط«ط¨ظٹطھ ط£ظˆ ط¥ط¹ط§ط¯ط© طھط«ط¨ظٹطھ |
 
-### ماذا يحدث عند تحديث DSH؟
+### ظ…ط§ط°ط§ ظٹط­ط¯ط« ط¹ظ†ط¯ طھط­ط¯ظٹط« DSHطں
 
-الإضافة تسكن في ملف المستخدم لا في التطبيق:
+ط§ظ„ط¥ط¶ط§ظپط© طھط³ظƒظ† ظپظٹ ظ…ظ„ظپ ط§ظ„ظ…ط³طھط®ط¯ظ… ظ„ط§ ظپظٹ ط§ظ„طھط·ط¨ظٹظ‚:
 
 ```
 %USERPROFILE%\.dsh\profiles\desktop\plugins\dsh-ar-rtl\
 %USERPROFILE%\.dsh\profiles\desktop\cordis.patch.yml
 ```
 
-| المكوّن | بعد التحديث | السبب |
+| ط§ظ„ظ…ظƒظˆظ‘ظ† | ط¨ط¹ط¯ ط§ظ„طھط­ط¯ظٹط« | ط§ظ„ط³ط¨ط¨ |
 |---|---|---|
-| اللغة والاتجاه والنصوص والعزل | **يبقى** | لا يعتمد على أي اسم صنف |
-| مفاتيح جديدة يضيفها التحديث | تظهر إنجليزية حتى تُترجم | لا ترجمة لها بعد |
-| تصحيحات الأيقونات والمحاذاة | **قد تنكسر بصمت** | أسماء الأصناف في DSH مُهشَّرة وتتغيّر مع كل بناء |
+| ط§ظ„ظ„ط؛ط© ظˆط§ظ„ط§طھط¬ط§ظ‡ ظˆط§ظ„ظ†طµظˆطµ ظˆط§ظ„ط¹ط²ظ„ | **ظٹط¨ظ‚ظ‰** | ظ„ط§ ظٹط¹طھظ…ط¯ ط¹ظ„ظ‰ ط£ظٹ ط§ط³ظ… طµظ†ظپ |
+| ظ…ظپط§طھظٹط­ ط¬ط¯ظٹط¯ط© ظٹط¶ظٹظپظ‡ط§ ط§ظ„طھط­ط¯ظٹط« | طھط¸ظ‡ط± ط¥ظ†ط¬ظ„ظٹط²ظٹط© ط­طھظ‰ طھظڈطھط±ط¬ظ… | ظ„ط§ طھط±ط¬ظ…ط© ظ„ظ‡ط§ ط¨ط¹ط¯ |
+| طھطµط­ظٹط­ط§طھ ط§ظ„ط£ظٹظ‚ظˆظ†ط§طھ ظˆط§ظ„ظ…ط­ط§ط°ط§ط© | **ظ‚ط¯ طھظ†ظƒط³ط± ط¨طµظ…طھ** | ط£ط³ظ…ط§ط، ط§ظ„ط£طµظ†ط§ظپ ظپظٹ DSH ظ…ظڈظ‡ط´ظژظ‘ط±ط© ظˆطھطھط؛ظٹظ‘ط± ظ…ط¹ ظƒظ„ ط¨ظ†ط§ط، |
 
-لذلك وُجد `update.bat`: يمسح `app.asar` الجديد، ويعيد اكتشاف الأصناف بالمطابقة على **متن
-القاعدة** لا على الاسم، ثم يعيد البناء والنشر. وإن تغيّر شكل مكوّن، يصرّح بذلك
-(`COULD NOT RESOLVE`) بدل أن يختفي التجاوز صامتاً.
+ظ„ط°ظ„ظƒ ظˆظڈط¬ط¯ `update.bat`: ظٹظ…ط³ط­ `app.asar` ط§ظ„ط¬ط¯ظٹط¯طŒ ظˆظٹط¹ظٹط¯ ط§ظƒطھط´ط§ظپ ط§ظ„ط£طµظ†ط§ظپ ط¨ط§ظ„ظ…ط·ط§ط¨ظ‚ط© ط¹ظ„ظ‰ **ظ…طھظ†
+ط§ظ„ظ‚ط§ط¹ط¯ط©** ظ„ط§ ط¹ظ„ظ‰ ط§ظ„ط§ط³ظ…طŒ ط«ظ… ظٹط¹ظٹط¯ ط§ظ„ط¨ظ†ط§ط، ظˆط§ظ„ظ†ط´ط±. ظˆط¥ظ† طھط؛ظٹظ‘ط± ط´ظƒظ„ ظ…ظƒظˆظ‘ظ†طŒ ظٹطµط±ظ‘ط­ ط¨ط°ظ„ظƒ
+(`COULD NOT RESOLVE`) ط¨ط¯ظ„ ط£ظ† ظٹط®طھظپظٹ ط§ظ„طھط¬ط§ظˆط² طµط§ظ…طھط§ظ‹.
 
-### تحقّق من أن الإضافة تعمل
+### طھط­ظ‚ظ‘ظ‚ ظ…ظ† ط£ظ† ط§ظ„ط¥ط¶ط§ظپط© طھط¹ظ…ظ„
 
-افتح وحدة تحكم المتصفح واكتب:
+ط§ظپطھط­ ظˆط­ط¯ط© طھط­ظƒظ… ط§ظ„ظ…طھطµظپط­ ظˆط§ظƒطھط¨:
 
 ```js
-__DSH_AR_RTL__   // اللغة النشطة، الاتجاه، عدد النطاقات والمفاتيح، وهل حُقنت الورقة
+__DSH_AR_RTL__   // ط§ظ„ظ„ط؛ط© ط§ظ„ظ†ط´ط·ط©طŒ ط§ظ„ط§طھط¬ط§ظ‡طŒ ط¹ط¯ط¯ ط§ظ„ظ†ط·ط§ظ‚ط§طھ ظˆط§ظ„ظ…ظپط§طھظٹط­طŒ ظˆظ‡ظ„ ط­ظڈظ‚ظ†طھ ط§ظ„ظˆط±ظ‚ط©
 ```
 
-### قيود معروفة
+### ظ‚ظٹظˆط¯ ظ…ط¹ط±ظˆظپط©
 
-* **أربعة أسماء إضافات تجريبية تبقى إنجليزية** (Agent Teams · Auto Authorization Review ·
-  Automation tasks · Voice input): عناوينها من بيانات الحزمة داخل `app.asar`، ودالة
-  `resolveText` في DSH لا تستشير القواميس بحكم توثيقها وتنفيذها.
-* **الجمع العربي**: صيغة القاموس الواحدة لا تعبّر عن الفئات الست، فيُستعمل المفرد مع 1
-  والجمع مع ما فوق.
-* **التصحيحات البصرية** تستهدف أسماء أصناف مُهشَّرة بطبيعتها؛ ولهذا وُجد `update.bat`.
+* **ط£ط±ط¨ط¹ط© ط£ط³ظ…ط§ط، ط¥ط¶ط§ظپط§طھ طھط¬ط±ظٹط¨ظٹط© طھط¨ظ‚ظ‰ ط¥ظ†ط¬ظ„ظٹط²ظٹط©** (Agent Teams آ· Auto Authorization Review آ·
+  Automation tasks آ· Voice input): ط¹ظ†ط§ظˆظٹظ†ظ‡ط§ ظ…ظ† ط¨ظٹط§ظ†ط§طھ ط§ظ„ط­ط²ظ…ط© ط¯ط§ط®ظ„ `app.asar`طŒ ظˆط¯ط§ظ„ط©
+  `resolveText` ظپظٹ DSH ظ„ط§ طھط³طھط´ظٹط± ط§ظ„ظ‚ظˆط§ظ…ظٹط³ ط¨ط­ظƒظ… طھظˆط«ظٹظ‚ظ‡ط§ ظˆطھظ†ظپظٹط°ظ‡ط§.
+* **ط§ظ„ط¬ظ…ط¹ ط§ظ„ط¹ط±ط¨ظٹ**: طµظٹط؛ط© ط§ظ„ظ‚ط§ظ…ظˆط³ ط§ظ„ظˆط§ط­ط¯ط© ظ„ط§ طھط¹ط¨ظ‘ط± ط¹ظ† ط§ظ„ظپط¦ط§طھ ط§ظ„ط³طھطŒ ظپظٹظڈط³طھط¹ظ…ظ„ ط§ظ„ظ…ظپط±ط¯ ظ…ط¹ 1
+  ظˆط§ظ„ط¬ظ…ط¹ ظ…ط¹ ظ…ط§ ظپظˆظ‚.
+* **ط§ظ„طھطµط­ظٹط­ط§طھ ط§ظ„ط¨طµط±ظٹط©** طھط³طھظ‡ط¯ظپ ط£ط³ظ…ط§ط، ط£طµظ†ط§ظپ ظ…ظڈظ‡ط´ظژظ‘ط±ط© ط¨ط·ط¨ظٹط¹طھظ‡ط§ط› ظˆظ„ظ‡ط°ط§ ظˆظڈط¬ط¯ `update.bat`.
 
 ---
 
 ## Repository layout
 
 ```
-├─ bootstrap.ps1        one-line installer entry point (irm … | iex)
-├─ install.ps1          install / -Update / -Uninstall logic
-├─ install.bat          double-click wrappers
-├─ uninstall.bat
-├─ update.bat
-├─ client.js            generated served bundle (committed for Node-less installs)
-├─ src/rtl.css          authored stylesheet: direction, bidi, LTR code, layout fixes
-├─ ar/*.json            58 Arabic dictionaries
-├─ tools/
-│  ├─ build-client.mjs       inlines src/rtl.css + ar/*.json into client.js
-│  ├─ selftest.mjs           20 assertions on the bundle's runtime behaviour
-│  ├─ validate-ar.mjs        key/placeholder parity against the English source
-│  ├─ namespace-keys.json    key lists only (English values are not redistributed)
-│  ├─ export-keys.mjs        regenerates namespace-keys.json from a local inventory
-│  └─ refresh-selectors.mjs  re-derives hashed CSS class names after a DSH update
-├─ docs/HOW-IT-WORKS.md
-└─ .github/workflows/ci.yml
+â”œâ”€ bootstrap.ps1        one-line installer entry point (irm â€¦ | iex)
+â”œâ”€ install.ps1          install / -Update / -Uninstall logic
+â”œâ”€ install.bat          double-click wrappers
+â”œâ”€ uninstall.bat
+â”œâ”€ update.bat
+â”œâ”€ client.js            generated served bundle (committed for Node-less installs)
+â”œâ”€ src/rtl.css          authored stylesheet: direction, bidi, LTR code, layout fixes
+â”œâ”€ ar/*.json            58 Arabic dictionaries
+â”œâ”€ tools/
+â”‚  â”œâ”€ build-client.mjs       inlines src/rtl.css + ar/*.json into client.js
+â”‚  â”œâ”€ selftest.mjs           20 assertions on the bundle's runtime behaviour
+â”‚  â”œâ”€ validate-ar.mjs        key/placeholder parity against the English source
+â”‚  â”œâ”€ namespace-keys.json    key lists only (English values are not redistributed)
+â”‚  â”œâ”€ export-keys.mjs        regenerates namespace-keys.json from a local inventory
+â”‚  â””â”€ refresh-selectors.mjs  re-derives hashed CSS class names after a DSH update
+â”œâ”€ docs/HOW-IT-WORKS.md
+â””â”€ .github/workflows/ci.yml
 ```
 
 ## Development
@@ -137,11 +137,11 @@ dictionaries it additionally checks placeholder and newline parity.
 * **Translations**: edit `ar/<namespace>.json`, keep the key set and every `{placeholder}`
   exactly as it is, then run `validate-ar.mjs`.
 * **Layout fixes**: add a rule to `src/rtl.css` only together with the shipped rule that
-  motivates it, quoted in a comment — see `docs/HOW-IT-WORKS.md` for why.
+  motivates it, quoted in a comment â€” see `docs/HOW-IT-WORKS.md` for why.
 * Run `build-client.mjs` before committing; CI rebuilds from source and compares.
 
 ## License
 
-MIT — see [LICENSE](LICENSE). This project is not affiliated with, endorsed by, or shipped by
+MIT â€” see [LICENSE](LICENSE). This project is not affiliated with, endorsed by, or shipped by
 DeepSeek. It contains no DSH code and redistributes no extracted English UI strings: only the
 translation dictionaries, the stylesheet, and the plugin wrapper.

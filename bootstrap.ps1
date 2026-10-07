@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
   One-line installer for the Arabic (RTL) DSH locale plugin.
 
@@ -6,11 +6,11 @@
   Downloads this repository as a zip, extracts it to a temporary folder, and runs
   its install.ps1. Use it directly from PowerShell:
 
-    irm https://raw.githubusercontent.com/__OWNER__/__REPO__/main/bootstrap.ps1 | iex
+    irm https://raw.githubusercontent.com/qrandmaster/dsh-ar-rtl/main/bootstrap.ps1 | iex
 
   Or with parameters:
 
-    & ([scriptblock]::Create((irm https://raw.githubusercontent.com/__OWNER__/__REPO__/main/bootstrap.ps1))) -Ref v1.0.0
+    & ([scriptblock]::Create((irm https://raw.githubusercontent.com/qrandmaster/dsh-ar-rtl/main/bootstrap.ps1))) -Ref v1.0.0
 
 .PARAMETER Repo
   GitHub repository slug, owner/name.
@@ -28,7 +28,7 @@
 #>
 [CmdletBinding()]
 param(
-  [string]$Repo = '__OWNER__/__REPO__',
+  [string]$Repo = 'qrandmaster/dsh-ar-rtl',
   [string]$Ref = 'main',
   [switch]$KeepFiles,
   [string]$SourceZip
@@ -37,7 +37,7 @@ param(
 $ErrorActionPreference = 'Stop'
 
 if (-not $SourceZip -and $Repo -like '__*__*') {
-  throw "This bootstrap is not configured yet: replace the __OWNER__/__REPO__ placeholder with the real repository slug (run scripts/publish.ps1), or pass -Repo owner/name."
+  throw "This bootstrap is not configured yet: replace the qrandmaster/dsh-ar-rtl placeholder with the real repository slug (run scripts/publish.ps1), or pass -Repo owner/name."
 }
 
 $temp = Join-Path $env:TEMP ("dsh-ar-rtl-" + [Guid]::NewGuid().ToString('N').Substring(0, 8))
@@ -81,4 +81,4 @@ try {
 }
 
 Write-Host ''
-Write-Host 'Done. Reload the DSH GUI (or restart it) and choose Settings -> General -> Language -> العربية.'
+Write-Host 'Done. Reload the DSH GUI (or restart it) and choose Settings -> General -> Language -> ط§ظ„ط¹ط±ط¨ظٹط©.'
