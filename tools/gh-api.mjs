@@ -179,6 +179,87 @@ if (action === 'whoami') {
   for (const run of res.body.workflow_runs ?? []) {
     process.stdout.write(`${run.name} #${run.run_number}: ${run.status}${run.conclusion ? ` / ${run.conclusion}` : ''}  ${run.html_url}\n`);
   }
+} else if (action === 'release') {
+  const slug = rest[0];
+  const tag = rest[1];
+  if (!slug || !tag) {
+    process.stderr.write('release needs owner/name and a tag\n');
+    process.exit(2);
+  }
+  const zipPath = valueOf('--zip');
+  const created = await api('POST', `/repos/${slug}/releases`, {
+    tag_name: tag,
+    name: valueOf('--name') ?? tag,
+    body: valueOf('--notes') ?? '',
+    draft: false,
+    prerelease: false,
+  });
+  if (created.status === 422 && /already_exists/u.test(JSON.stringify(created.body))) {
+    process.stdout.write(`release ${tag} already exists\n`);
+    process.exit(0);
+  }
+  if (created.status !== 201) {
+    process.stdout.write(`POST /releases -> ${created.status}: ${JSON.stringify(created.body)}\n`);
+    process.exit(1);
+  }
+  process.stdout.write(`release created: ${created.body.html_url}\n`);
+
+  if (zipPath) {
+    const fileName = zipPath.split(/[\\/]/u).pop();
+    const file = readFileSync(zipPath);
+    const boundary = `----dshArRtl${Date.now().toString(16)}`;
+    const head = Buffer.from(
+      `--${boundary}\r\nContent-Disposition: form-data; name="file"; filename="${fileName}"\r\n` +
+        `Content-Type: application/zip\r\n\r\n`,
+      'utf8',
+    );
+    const tail = Buffer.from(`\r\n--${boundary}--\r\n`, 'utf8');
+    const payload = Buffer.concat([head, file, tail]);
+
+    const uploaded = await new Promise((resolve, reject) => {
+      const req = request(
+        {
+          host: 'uploads.github.com',
+          path: `/repos/${slug}/releases/${created.body.id}/assets?name=${encodeURIComponent(fileName)}`,
+          method: 'POST',
+          headers: {
+            'User-Agent': 'dsh-ar-rtl-publisher',
+            Accept: 'application/vnd.github+json',
+            Authorization: `Bearer ${token}`,
+            'Content-Type': `multipart/form-data; boundary=${boundary}`,
+            'Content-Length': payload.length,
+          },
+        },
+        (res) => {
+          let data = '';
+          res.setEncoding('utf8');
+          res.on('data', (chunk) => {
+            data += chunk;
+          });
+          res.on('end', () => {
+            let parsed = null;
+            try {
+              parsed = data ? JSON.parse(data) : null;
+            } catch {
+              parsed = data;
+            }
+            resolve({ status: res.statusCode, body: parsed });
+          });
+        },
+      );
+      req.on('error', reject);
+      req.write(payload);
+      req.end();
+    });
+
+    if (uploaded.status === 201) {
+      process.stdout.write(`asset uploaded: ${uploaded.body.name} (${uploaded.body.size} bytes)\n`);
+      process.stdout.write(`download:       ${uploaded.body.browser_download_url}\n`);
+    } else {
+      process.stdout.write(`asset upload -> ${uploaded.status}: ${JSON.stringify(uploaded.body)}\n`);
+      process.exit(1);
+    }
+  }
 } else {
   process.stderr.write(`unknown action: ${action}\n`);
   process.exit(2);

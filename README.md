@@ -17,6 +17,10 @@ irm https://raw.githubusercontent.com/qrandmaster/dsh-ar-rtl/main/bootstrap.ps1 
 
 Then reload the GUI and pick **Settings → General → Language → العربية**.
 
+Prefer a file? Grab the packaged zip from the
+[latest release](https://github.com/qrandmaster/dsh-ar-rtl/releases/latest), extract it and run
+`install.bat`.
+
 ---
 
 ## العربية
@@ -47,7 +51,8 @@ irm https://raw.githubusercontent.com/qrandmaster/dsh-ar-rtl/main/bootstrap.ps1 
 
 ### التثبيت اليدوي
 
-1. نزّل هذا المستودع (زر Code ثم Download ZIP) وفكّ الضغط.
+1. نزّل هذا المستودع (زر Code ثم Download ZIP) أو حزمة الإصدار الجاهزة من
+   [صفحة الإصدارات](https://github.com/qrandmaster/dsh-ar-rtl/releases/latest) وفكّ الضغط.
 2. انقر `install.bat` نقراً مزدوجاً.
 3. أعد تحميل الواجهة، ثم **Settings → General → Language → العربية**.
 
