@@ -1,16 +1,20 @@
-﻿<#
+<#
 .SYNOPSIS
   One-line installer for the Arabic (RTL) DSH locale plugin.
 
 .DESCRIPTION
-  Downloads this repository as a zip, extracts it to a temporary folder, and runs
-  its install.ps1. Use it directly from PowerShell:
+  Downloads this repository as an archive, extracts it to a temporary folder, and
+  runs its install.ps1. Use it straight from PowerShell:
 
     irm https://raw.githubusercontent.com/qrandmaster/dsh-ar-rtl/main/bootstrap.ps1 | iex
 
-  Or with parameters:
+  Or, to pass parameters, wrap it in a script block:
 
     & ([scriptblock]::Create((irm https://raw.githubusercontent.com/qrandmaster/dsh-ar-rtl/main/bootstrap.ps1))) -Ref v1.0.0
+
+  The script is deliberately ASCII-only and avoids every non-ASCII character, so
+  Windows PowerShell 5.1 (the interpreter behind a double-clicked .bat) reads it
+  identically to PowerShell 7.
 
 .PARAMETER Repo
   GitHub repository slug, owner/name.
@@ -22,9 +26,8 @@
   Keep the extracted folder instead of deleting it afterwards.
 
 .PARAMETER SourceZip
-  Install straight from a local zip (the distributed package or a repository
-  archive) instead of downloading. Useful for offline machines and for testing
-  the bootstrap without publishing.
+  Install from a local archive (the distributed package or a repository zip)
+  instead of downloading. Useful offline and for testing.
 #>
 [CmdletBinding()]
 param(
@@ -36,8 +39,8 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
-if (-not $SourceZip -and $Repo -like '__*__*') {
-  throw "This bootstrap is not configured yet: replace the qrandmaster/dsh-ar-rtl placeholder with the real repository slug (run scripts/publish.ps1), or pass -Repo owner/name."
+if (-not $SourceZip -and $Repo -notmatch '/') {
+  throw "Repository slug must look like owner/name; got '$Repo'. Pass -Repo owner/name."
 }
 
 $temp = Join-Path $env:TEMP ("dsh-ar-rtl-" + [Guid]::NewGuid().ToString('N').Substring(0, 8))
@@ -53,17 +56,36 @@ try {
     Write-Host "Using local archive $SourceZip"
   } else {
     Write-Host "Downloading $Repo ($Ref) ..."
-    $url = "https://codeload.github.com/$Repo/zip/refs/heads/$Ref"
-    try {
-      Invoke-WebRequest -Uri $url -OutFile $zip -UseBasicParsing
-    } catch {
-      # A tag (not a branch) lives under a different codeload path.
-      $url = "https://codeload.github.com/$Repo/zip/refs/tags/$Ref"
-      Invoke-WebRequest -Uri $url -OutFile $zip -UseBasicParsing
+    $downloaded = $false
+    foreach ($url in @(
+      "https://codeload.github.com/$Repo/zip/refs/heads/$Ref",
+      "https://codeload.github.com/$Repo/zip/refs/tags/$Ref"
+    )) {
+      try {
+        Invoke-WebRequest -Uri $url -OutFile $zip -UseBasicParsing
+        $downloaded = $true
+        break
+      } catch {
+        Write-Host "  could not fetch $url"
+      }
+    }
+
+    if (-not $downloaded) {
+      # Fallback for machines where the HTTP client cannot complete TLS but git
+      # can: a shallow clone of the same ref.
+      Write-Host 'Falling back to a shallow git clone ...'
+      $clone = Join-Path $temp 'clone'
+      & git clone --depth 1 --branch $Ref "https://github.com/$Repo.git" $clone
+      if ($LASTEXITCODE -ne 0 -or -not (Test-Path -LiteralPath $clone)) {
+        throw 'Download failed and the git fallback did not work either.'
+      }
+      $extract = $clone
     }
   }
 
-  Expand-Archive -LiteralPath $zip -DestinationPath $extract -Force
+  if (-not (Test-Path -LiteralPath $extract)) {
+    Expand-Archive -LiteralPath $zip -DestinationPath $extract -Force
+  }
 
   $installer = Get-ChildItem -LiteralPath $extract -Recurse -Filter 'install.ps1' |
     Select-Object -First 1
@@ -81,4 +103,4 @@ try {
 }
 
 Write-Host ''
-Write-Host 'Done. Reload the DSH GUI (or restart it) and choose Settings -> General -> Language -> ط§ظ„ط¹ط±ط¨ظٹط©.'
+Write-Host 'Done. Reload the DSH GUI (or restart it), then open Settings - General - Language.'

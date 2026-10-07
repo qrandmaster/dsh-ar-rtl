@@ -5,8 +5,8 @@
 .DESCRIPTION
   Fills the repository placeholders (__OWNER__/__REPO__ in bootstrap.ps1 and
   README.md, __YEAR__/__AUTHOR__ in LICENSE), initialises git if needed, commits
-  everything with your identity, points `origin` at the new repository and —
-  with -Push — pushes it.
+  everything with your identity, points `origin` at the new repository and, with
+  -Push, pushes it.
 
   Create the empty repository on GitHub first (no README, no licence), then run:
 
@@ -59,7 +59,11 @@ function Set-Placeholders {
   param([string]$RelativePath)
   $path = Join-Path $root $RelativePath
   if (-not (Test-Path -LiteralPath $path)) { Write-Host "skip (missing): $RelativePath"; return }
-  $original = Get-Content -LiteralPath $path -Raw
+  # Explicit UTF-8 through .NET: Windows PowerShell 5.1 reads and writes with the
+  # ANSI code page by default, which silently turns every Arabic character in
+  # README.md and bootstrap.ps1 into mojibake. That happened once; never again.
+  $utf8 = New-Object Text.UTF8Encoding($false)
+  $original = [IO.File]::ReadAllText($path, $utf8)
   $updated = $original.
     Replace('__OWNER__/__REPO__', $slug).
     Replace('__YEAR__', "$year").
@@ -69,7 +73,7 @@ function Set-Placeholders {
     return
   }
   if ($DryRun) { Write-Host "would update: $RelativePath"; return }
-  Set-Content -LiteralPath $path -Value $updated -NoNewline -Encoding utf8
+  [IO.File]::WriteAllText($path, $updated, $utf8)
   Write-Host "updated: $RelativePath"
 }
 
@@ -110,7 +114,7 @@ if (-not $staged) {
 }
 
 # `git remote` lists quietly when there is none, whereas `git remote get-url`
-# writes to stderr and — with $ErrorActionPreference = 'Stop' — aborts the script
+# writes to stderr and, with $ErrorActionPreference = 'Stop', aborts the script
 # on a fresh repository with no remote yet.
 $remotes = @(& git -C $root remote)
 if ($remotes -contains 'origin') {

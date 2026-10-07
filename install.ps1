@@ -70,11 +70,26 @@ $pluginsRoot = Join-Path $profileDir 'plugins'
 $target = Join-Path $pluginsRoot $pluginDirName
 $rowBlock = @(
   ''
-  '# Arabic (RTL) client plugin — package installed beside this patch file.'
+  '# Arabic (RTL) client plugin; package installed beside this patch file.'
   '- insert:'
   '    - id: ar-rtl'
   "      name: './plugins/$pluginDirName/index.js'"
 ) -join [Environment]::NewLine
+
+function Read-Utf8 {
+  param([string]$Path)
+  # Explicit encoding: Windows PowerShell 5.1 defaults to the ANSI code page,
+  # which would corrupt any non-ASCII character already in the file.
+  return [IO.File]::ReadAllText($Path, (New-Object Text.UTF8Encoding($false)))
+}
+
+function Write-Utf8NoBom {
+  param([string]$Path, [string]$Text)
+  # Written through .NET on purpose: 5.1's `-Encoding utf8` emits a BOM, and
+  # after the first append that BOM would sit in the middle of a YAML file the
+  # loader still has to parse.
+  [IO.File]::WriteAllText($Path, $Text, (New-Object Text.UTF8Encoding($false)))
+}
 
 function Resolve-Asar {
   param([string]$Explicit)
@@ -120,22 +135,23 @@ function Copy-Package {
 
 function Add-LoaderRow {
   if (-not (Test-Path -LiteralPath $patchFile)) {
-    Set-Content -LiteralPath $patchFile -Encoding utf8 -Value @(
+    Write-Utf8NoBom -Path $patchFile -Text ((@(
       '# Your patch layer for this dsh profile: a top-level YAML array of loader patch entries.'
-    )
+    ) -join [Environment]::NewLine) + [Environment]::NewLine)
     Write-Host "Created $patchFile"
   }
-  $text = Get-Content -LiteralPath $patchFile -Raw
+  $text = Read-Utf8 -Path $patchFile
   if ($text -match [regex]::Escape($marker) -or $text -match "plugins/$pluginDirName") {
     Write-Host "Loader row already present in $patchFile"
     return
   }
-  Add-Content -LiteralPath $patchFile -Value $rowBlock -Encoding utf8
+  if (-not $text.EndsWith([Environment]::NewLine)) { $text += [Environment]::NewLine }
+  Write-Utf8NoBom -Path $patchFile -Text ($text + $rowBlock + [Environment]::NewLine)
   Write-Host "Appended the loader row to $patchFile"
 }
 
 function Remove-LoaderRow {
-  $lines = Get-Content -LiteralPath $patchFile
+  $lines = Read-Utf8 -Path $patchFile -split "`r?`n"
   $kept = New-Object System.Collections.Generic.List[string]
   foreach ($line in $lines) {
     if ($line -match "plugins/$pluginDirName" -or $line -match '^\s*-\s*id:\s*ar-rtl\s*$') {
@@ -146,7 +162,7 @@ function Remove-LoaderRow {
     }
     $kept.Add($line)
   }
-  Set-Content -LiteralPath $patchFile -Value $kept -Encoding utf8
+  Write-Utf8NoBom -Path $patchFile -Text (($kept -join [Environment]::NewLine) + [Environment]::NewLine)
   Write-Host "Removed the loader row from $patchFile"
 }
 
@@ -209,6 +225,6 @@ Add-LoaderRow
 Write-Host ''
 Write-Host "Installed to: $target"
 Write-Host 'Next: reload http://127.0.0.1:19387 (restart DSH if the language list is unchanged),'
-Write-Host 'then choose Settings -> General -> Language -> العربية.'
+Write-Host 'then choose Settings -> General -> Language and pick the Arabic entry.'
 Write-Host ''
 Write-Host 'After a DSH update run:  install.bat -Update'
