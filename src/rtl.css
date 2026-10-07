@@ -357,3 +357,29 @@ html[dir="rtl"] .wCInkW_navLabel {
   text-overflow: clip;
 }
 
+/* --- Layer 11: جهة رسائل المستخدم -----------------------------------------
+ * المشحون: .cJsG2q_userRow{flex-direction:column;align-items:flex-end;gap:6px}
+ *          .cJsG2q_userStack{…;align-items:flex-end;…}
+ * وعلى المنوال نفسه: .-ja1rG_row و.-ja1rG_stack (نسخة أخرى من فقاعة المستخدم).
+ *
+ * مع dir="rtl" صار flex-end يعني الحافة اليسرى، فانتقلت رسائل المستخدم إلى
+ * اليسار. والقارئ العربي يتوقع رسالته على اليمين، فتُعاد بداية المحور العرضي. */
+html[dir="rtl"] .cJsG2q_userRow,
+html[dir="rtl"] .cJsG2q_userStack,
+html[dir="rtl"] .-ja1rG_row,
+html[dir="rtl"] .-ja1rG_stack {
+  align-items: flex-start;
+}
+
+/* المشحون: .v1fjQa_bubble{…;text-align:left;…} و.v1fjQa_toggle{…;text-align:left}
+ * و.v1fjQa_options{padding-left:16px} — وهو صندوق سؤال/جواب داخل المحادثة. */
+html[dir="rtl"] .v1fjQa_bubble,
+html[dir="rtl"] .v1fjQa_toggle {
+  text-align: right;
+}
+
+html[dir="rtl"] .v1fjQa_options {
+  padding-left: 0;
+  padding-right: 16px;
+}
+

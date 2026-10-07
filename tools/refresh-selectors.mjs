@@ -66,6 +66,9 @@ const tokens = [
   { token: '_3nPmjq', what: 'models section', signature: /\.([A-Za-z0-9_-]{4,12})_rowActions\{[^}]*margin-left:auto[^}]*\}/u },
   { token: '_3Y3Nma', what: 'shortcuts reference', signature: /\.([A-Za-z0-9_-]{4,12})_settingText\{[^}]*padding-right:48px[^}]*\}/u },
   { token: 'Dc7zOa', what: 'conversation root', signature: /\.([A-Za-z0-9_-]{4,12})_headerUtilities\{[^}]*margin-left:20px[^}]*\}/u },
+  { token: 'cJsG2q', what: 'user message row', signature: /\.([A-Za-z0-9_-]{4,12})_userRow\{[^}]*align-items:flex-end/u },
+  { token: '-ja1rG', what: 'user message row (variant)', signature: /\.([A-Za-z0-9_-]{4,12})_bubble\{overflow-wrap:anywhere/u },
+  { token: 'v1fjQa', what: 'question and answer box', signature: /\.([A-Za-z0-9_-]{4,12})_bubble\{[^}]*max-width:72%/u },
   { token: '1ik0f', what: 'switch primitive', signature: /_switch_([A-Za-z0-9]+)_\d+\[aria-checked=true\]\s*\._thumb_\1_\d+\{transform:translate\(16px\)\}/u },
   { token: '4ub78', what: 'menu primitive', signature: /\._item_([A-Za-z0-9]+)_\d+\{[^}]*text-align:left[^}]*\}/u },
 ];
