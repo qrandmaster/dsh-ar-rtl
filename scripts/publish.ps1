@@ -109,9 +109,12 @@ if (-not $staged) {
   & git -C $root commit -m $Message
 }
 
-$existingRemote = & git -C $root remote get-url origin 2>$null
-if ($existingRemote) {
-  Write-Host "== origin already set: $existingRemote"
+# `git remote` lists quietly when there is none, whereas `git remote get-url`
+# writes to stderr and — with $ErrorActionPreference = 'Stop' — aborts the script
+# on a fresh repository with no remote yet.
+$remotes = @(& git -C $root remote)
+if ($remotes -contains 'origin') {
+  Write-Host "== origin already set: $(& git -C $root remote get-url origin)"
 } else {
   Write-Host '== adding origin'
   & git -C $root remote add origin "https://github.com/$slug.git"
