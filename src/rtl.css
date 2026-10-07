@@ -25,17 +25,51 @@ html[dir="rtl"] #root {
 }
 
 /* --- Layer 2: bidi-correct prose -----------------------------------------
- * `unicode-bidi: plaintext` applies the Unicode First-Strong-Character rule per
- * block: Arabic prose runs RTL, an all-Latin line stays LTR, so paths, numbers,
- * and brackets inside Arabic sentences stop jumping. */
+ * قاعدة الاتجاه في واجهة عربية هي RTL، وكل كتلة نصية فيها تمضي من اليمين حتى لو
+ * كان نصّها إنجليزياً — وهذا ما ينتظره القارئ العربي من واجهة عربية.
+ *
+ * ولم نُبقِ `unicode-bidi: plaintext` على الفقرات وعناصر القوائم: فهي تجعل اتجاه
+ * البند يتبع لغة أول كلمة فيه، فتنتقل علامة البند إلى اليسار بينما يبقى النص على
+ * اليمين — وهو الخلل الذي ظهر في القوائم التي تبدأ بنص إنجليزي.
+ *
+ * وترتيب المقاطع المختلطة يتكفّل به محرّك bidi مع قاعدة RTL، ومع محارف العزل
+ * (U+2068 … U+2069) المثبَّتة حول القيم التقنية في القواميس. */
 
-html[dir="rtl"] [data-conversation-region="chat"] [data-chat-flow] :is(p, li, h1, h2, h3, h4, h5, h6, blockquote, dt, dd, td, th),
+html[dir="rtl"] [data-conversation-region="chat"] [data-chat-flow] :is(p, h1, h2, h3, h4, h5, h6, blockquote, dt, dd, td, th),
 html[dir="rtl"] [data-markdown-variant],
 html[dir="rtl"] .md-table-wide,
 html[dir="rtl"] [data-message-attachments],
 html[dir="rtl"] [data-turn-process-answer] {
-  unicode-bidi: plaintext;
+  unicode-bidi: normal;
   text-align: start;
+}
+
+/* --- Layer 2ب: القوائم ----------------------------------------------------
+ * المشحون:
+ *   ._markdown_1ypvv_5 :where(ul,ol){margin:16px 0;padding-left:18px}
+ *   ._markdown_1ypvv_5 :where(ul,ol) ol{list-style-position:inside;padding-left:0}
+ *   ._markdown_1ypvv_5 li::marker{line-height:24px;color:var(--dsw-alias-label-secondary)}
+ *
+ * مساحة العلامة محجوزة فيزيائياً على اليسار بـ18px، والعلامة في قائمة عربية
+ * تُرسم على اليمين؛ فتُنقل الحشوة إلى جهة البداية، ويُثبَّت اتجاه البند صريحاً كي
+ * لا تتبع علامتُه لغةَ أول كلمة فيه — عربية كانت أو إنجليزية. */
+
+html[dir="rtl"] [data-conversation-region="chat"] [data-chat-flow] :is(ul, ol) {
+  direction: rtl;
+  text-align: right;
+  padding-left: 0;
+  padding-right: 18px;
+}
+
+html[dir="rtl"] [data-conversation-region="chat"] [data-chat-flow] li {
+  direction: rtl;
+  unicode-bidi: normal;
+  text-align: right;
+}
+
+html[dir="rtl"] [data-conversation-region="chat"] [data-chat-flow] li::marker {
+  direction: rtl;
+  unicode-bidi: normal;
 }
 
 /* The shipped wide-table breakout is physical and does not mirror by itself. */
