@@ -1,0 +1,19 @@
+{
+  "chip.label": "خطة",
+  "preview.title": "خطة",
+  "preview.document": "خطة · Markdown",
+  "preview.action": "فتح",
+  "preview.open": "فتح الخطة في الشريط الجانبي",
+  "preview.full": "عرض الخطة كاملة",
+  "preview.openNamed": "فتح الخطة: ⁨{title}⁩",
+  "preview.loading": "جارٍ تحميل الخطة…",
+  "preview.failed": "تعذّر تحميل الخطة",
+  "preview.invalidAddress": "عنوان الخطة غير صالح",
+  "preview.historyUnavailable": "سجل الجلسة غير متاح",
+  "preview.notFound": "لم يتم العثور على هذه الخطة",
+  "preview.unavailable": "معاينة الخطة غير متاحة",
+  "preview.expired": "انتهت صلاحية معاينة الخطة المؤقتة هذه. أعد فتحها من بطاقة المراجعة المعلّقة.",
+  "chip.on.aria": "وضع الخطة مفعّل، اضغط للإيقاف",
+  "chip.on.title": "وضع الخطة مفعّل — انقر للإيقاف (/plan off)",
+  "chip.exitFailed": "فشل الخروج من وضع الخطة"
+}

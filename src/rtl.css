@@ -1,0 +1,359 @@
+/* ---------------------------------------------------------------------------
+ * Arabic (RTL) overrides for the DSH Web GUI — build 0.2.0-rc.2.
+ *
+ * Verified constraints behind this sheet:
+ *   - No shipped stylesheet contains `direction:` (outside `flex-direction`) or
+ *     `unicode-bidi`; no app code ever reads or writes a `dir` attribute, and
+ *     the served document is `<html lang="en">`. The locale runtime rewrites
+ *     `<html lang>` only.
+ *   - CSS-module class names are build-time hashes and change on every rebuild,
+ *     so this sheet targets the literal data attributes and the few global
+ *     `md-*` hooks instead.
+ *   - Plugin <style> tags land after the shell's <link>s, and no inline
+ *     `direction`/`unicode-bidi` is ever emitted, so equal-specificity rules win
+ *     by order and `!important` is only a tie-breaker.
+ *
+ * Layers: 1 direction · 2 bidi prose · 3 code LTR · 4 mirror opt-in.
+ * ------------------------------------------------------------------------- */
+
+/* --- Layer 1: document direction ----------------------------------------- */
+
+html[dir="rtl"],
+html[dir="rtl"] body,
+html[dir="rtl"] #root {
+  direction: rtl;
+}
+
+/* --- Layer 2: bidi-correct prose -----------------------------------------
+ * `unicode-bidi: plaintext` applies the Unicode First-Strong-Character rule per
+ * block: Arabic prose runs RTL, an all-Latin line stays LTR, so paths, numbers,
+ * and brackets inside Arabic sentences stop jumping. */
+
+html[dir="rtl"] [data-conversation-region="chat"] [data-chat-flow] :is(p, li, h1, h2, h3, h4, h5, h6, blockquote, dt, dd, td, th),
+html[dir="rtl"] [data-markdown-variant],
+html[dir="rtl"] .md-table-wide,
+html[dir="rtl"] [data-message-attachments],
+html[dir="rtl"] [data-turn-process-answer] {
+  unicode-bidi: plaintext;
+  text-align: start;
+}
+
+/* The shipped wide-table breakout is physical and does not mirror by itself. */
+html[dir="rtl"] .md-table-wide {
+  margin-left: 0;
+  padding-left: 0;
+  margin-right: calc(-1 * var(--dsh-table-lead));
+  padding-right: var(--dsh-table-lead);
+}
+
+/* Text entry follows its own content instead of the document base direction. */
+html[dir="rtl"] input,
+html[dir="rtl"] textarea,
+html[dir="rtl"] [contenteditable="true"],
+html[dir="rtl"] [contenteditable="plaintext-only"] {
+  unicode-bidi: plaintext;
+}
+
+/* --- Layer 3: code, commands, and identifiers stay LTR --------------------
+ * Forcing `direction: ltr` also re-resolves the shipped logical properties
+ * (`inset-inline-start`, `text-align: end`, `padding-inline-start`) onto the
+ * code's own left edge, so the line-number gutter needs no extra override. */
+
+html[dir="rtl"] body :is(.md-code-block, [data-terminal]) [data-code-block-content],
+html[dir="rtl"] body :is(.md-code-block, [data-terminal]) [data-code-block-content] pre,
+html[dir="rtl"] body :is(.md-code-block, [data-terminal]) [data-code-block-content] code,
+html[dir="rtl"] body :not(pre) > code,
+html[dir="rtl"] body kbd,
+html[dir="rtl"] body samp {
+  direction: ltr !important;
+  unicode-bidi: isolate !important;
+  text-align: left !important;
+}
+
+/* --- Layer 4: glyphs that encode "forward" -------------------------------
+ * Every selector below comes from a verbatim shipped rule, not a guess. The
+ * right-panel icons already carry `transform: scaleX(-1)` in the shipped CSS,
+ * so they are deliberately NOT touched: un-mirroring them would double the
+ * flip. `data-dsh-rtl-mirror` stays available as an explicit opt-in marker. */
+
+html[dir="rtl"] [data-dsh-rtl-mirror] {
+  transform: scaleX(-1);
+}
+
+/* "More account information" ships as IconRightUpOutlineRegular (↗). */
+html[dir="rtl"] ._8RVnMG_accountInfo svg {
+  transform: scaleX(-1);
+}
+
+/* Drill-in chevrons that point "forward" (right) in LTR. */
+html[dir="rtl"] .wq12jW_cellChevron,
+html[dir="rtl"] .fO69Vq_rowOpenIcon {
+  transform: scaleX(-1);
+}
+
+/* The breadcrumb separator ships as a down chevron rotated 90deg. */
+html[dir="rtl"] .fO69Vq_crumbIcon {
+  transform: rotate(-90deg);
+}
+
+/* The sidebar collapse control ships as IconPanelLeftOutlineRegular. */
+html[dir="rtl"] ._2H3hWW_panelIcon {
+  transform: scaleX(-1);
+}
+
+/* Windows titlebar fix: the sidebar moves to the right under dir="rtl", so its
+ * fixed toggle must leave the physical left edge. */
+html[dir="rtl"] [data-windows-titlebar] ._2H3hWW_toggle {
+  left: auto;
+  right: 12px;
+}
+
+/* The account menu's exit glyph already points the right way once the menu is
+ * mirrored; an earlier `:last-child` rule here also hit unrelated last rows
+ * (for example the settings navigation), so it was removed deliberately. */
+
+/* --- Layer 5: composer action row ----------------------------------------
+ * `.RlGAzG_trailing{flex:none;gap:12px;margin-left:auto}` is why the send
+ * button floated mid-row with an empty gap at the left edge: that auto margin
+ * is physical. Flipping it parks the model selector and send button against
+ * the left edge; the remaining physical paddings are mirrored to match. */
+
+html[dir="rtl"] .RlGAzG_trailing {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+html[dir="rtl"] .RlGAzG_scroll {
+  margin-right: 0;
+  margin-left: 4px;
+}
+
+html[dir="rtl"] .RlGAzG_input {
+  padding: 4px 14px 0 8px;
+}
+
+html[dir="rtl"] .RlGAzG_placeholder {
+  inset: 4px 14px auto 8px;
+}
+
+/* The select arrow is a background image pinned to the physical right. */
+html[dir="rtl"] .RlGAzG_select {
+  background-position: left 4px center;
+  padding: 0 8px 0 20px;
+}
+
+html[dir="rtl"] .RlGAzG_retry {
+  margin-left: 0;
+  margin-right: 8px;
+}
+
+/* The model and permission selectors share the same physical trigger padding. */
+html[dir="rtl"] .wq12jW_trigger,
+html[dir="rtl"] .dlU_AG_trigger {
+  padding: 0 8px 0 4px;
+}
+
+/* Model picker: the search field reserves room on the right for its clear
+ * button, and the value column is explicitly right-aligned. */
+html[dir="rtl"] .wq12jW_searchRow .wq12jW_searchWithQuery {
+  padding-right: 7px;
+  padding-left: 34px;
+}
+
+html[dir="rtl"] .wq12jW_searchClear {
+  right: auto;
+  left: 4px;
+}
+
+html[dir="rtl"] .wq12jW_cellValue {
+  text-align: left;
+}
+
+html[dir="rtl"] .wq12jW_cell,
+html[dir="rtl"] .wq12jW_option {
+  text-align: right;
+}
+
+/* --- Layer 6: shipped physical text alignment ----------------------------
+ * Several shipped rules hard-code `text-align: left`, which does not follow
+ * the writing direction. Each selector names the exact shipped rule it
+ * mirrors. */
+
+html[dir="rtl"] ._item_4ub78_90,
+html[dir="rtl"] .fO69Vq_cardOpen,
+html[dir="rtl"] .KZf9OG_cardMain,
+html[dir="rtl"] ._2H3hWW_panelRow {
+  text-align: right;
+}
+
+/* Menu items keep the label hard against the icon; without a shortcut row the
+ * shipped `text-align: left` pushed it to the far side. */
+html[dir="rtl"] ._itemLabel_4ub78_190 {
+  text-align: right;
+}
+
+/* Keyboard shortcuts are Latin runs inside an RTL line: a trailing comma or
+ * plus is neutral and jumps to the wrong end without isolation, so `Ctrl + ,`
+ * must be fenced as one LTR unit. */
+html[dir="rtl"] ._shortcut_4ub78_198,
+html[dir="rtl"] ._2H3hWW_newSessionShortcut,
+html[dir="rtl"] kbd {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+/* --- Layer 7: markdown tables -------------------------------------------
+ * The markdown renderer emits an inline `text-align` for a `:---` delimiter
+ * column, and an inline style outranks a plain stylesheet rule — which is why
+ * a table written with alignment markers stays left-aligned inside an RTL
+ * transcript. `!important` is required for exactly that reason. */
+
+html[dir="rtl"] [data-conversation-region="chat"] :is(th, td),
+html[dir="rtl"] .md-table-wide :is(th, td),
+html[dir="rtl"] [data-conversation-region="chat"] table {
+  text-align: right !important;
+}
+
+/* --- Layer 8: remaining physical offsets from the CSS audit -------------- */
+
+html[dir="rtl"] .Dc7zOa_header {
+  padding: 10px 20px 0 28px;
+}
+
+html[dir="rtl"] .Dc7zOa_headerUtilities {
+  margin-left: 0;
+  margin-right: 20px;
+}
+
+html[dir="rtl"] .Dc7zOa_headerCorner {
+  margin-left: -16px;
+  margin-right: 8px;
+}
+
+html[dir="rtl"] .Dc7zOa_headerBlank .Dc7zOa_headerCorner {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+html[dir="rtl"] .Dc7zOa_scrollBody {
+  margin-right: 0;
+  margin-left: 2px;
+}
+
+html[dir="rtl"] .Dc7zOa_heroWorkspaceRow {
+  padding: 0 20px 0 16px;
+}
+
+/* The scrollbar sits on the left under RTL, so the composer seat must reserve
+ * room on that side instead. */
+html[dir="rtl"] .Dc7zOa_composerSeat {
+  right: 0;
+  left: var(--dsh-scrollbar-width);
+}
+
+html[dir="rtl"] ._3nPmjq_rowActions {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+html[dir="rtl"] .KZf9OG_cardHelp {
+  margin-right: 0;
+  margin-left: auto;
+}
+
+html[dir="rtl"] .fO69Vq_registryCustomField,
+html[dir="rtl"] .fO69Vq_registryOption > .fO69Vq_inputError,
+html[dir="rtl"] .fO69Vq_registryOption > .fO69Vq_registryHint {
+  margin-left: 0;
+  margin-right: 26px;
+}
+
+html[dir="rtl"] .fO69Vq_rowFailure {
+  margin: 4px 56px 0 0;
+}
+
+html[dir="rtl"] .fO69Vq_dependents {
+  padding-left: 0;
+  padding-right: 18px;
+}
+
+html[dir="rtl"] .KZf9OG_brokenTip {
+  text-align: right;
+  left: auto;
+  right: 0;
+}
+
+/* --- Layer 9: settings text blocks and navigation ------------------------
+ * The shipped settings rows repeat one pattern in SIX separate CSS modules:
+ * a stretched text block carrying `padding-right: 48px`. That padding is
+ * physical, so under RTL it pushes every title and description 48px away from
+ * the right edge and makes one row (the developer-tools switch row, which has
+ * no such padding) look misaligned against its neighbours. Mirroring the
+ * padding aligns every settings row the same way. Verified class names:
+ *   Hefa_q_rowText     locale language row
+ *   XZcbxG_rowText     chat-link target row
+ *   mP3ANa_rowText     settings row (imports/paths)
+ *   _3HsggG_rowText    settings row (stepper family)
+ *   _3Y3Nma_settingText keyboard-shortcuts row
+ *   _0Fr0Ha_rowText    numeric stepper row (for example font size) */
+
+html[dir="rtl"] :is(.Hefa_q_rowText, .XZcbxG_rowText, ._0Fr0Ha_rowText, ._3HsggG_rowText, ._3Y3Nma_settingText, .mP3ANa_rowText) {
+  padding-right: 0;
+  padding-left: 48px;
+}
+
+/* The stepper's up/down arrows are pinned to the physical right. */
+html[dir="rtl"] ._0Fr0Ha_arrows {
+  right: auto;
+  left: 8px;
+}
+
+/* The shortcuts dialog: header padding and the close button are physical. */
+html[dir="rtl"] ._3Y3Nma_header {
+  padding: 22px 24px 0 54px;
+}
+
+html[dir="rtl"] ._3Y3Nma_close {
+  right: auto;
+  left: 14px;
+}
+
+/* .wCInkW_navCell{...;text-align:left;...;padding:9px 16px 9px 12px} with
+ * .wCInkW_navLabel{flex:1} — the label stretches across the row and its text
+ * sat at the physical left, leaving the icon stranded alone on the right. */
+html[dir="rtl"] .wCInkW_navCell {
+  text-align: right;
+  padding: 9px 12px 9px 16px;
+}
+
+/* --- Layer 10: controls and settings navigation labels -------------------
+ * Two independent defects, both with exact shipped evidence. */
+
+/* Shipped: ._switch_1ik0f_5[aria-checked=true] ._thumb_1ik0f_33
+ *           { transform: translate(16px) }
+ * That is a physical +X move. Under RTL the thumb's block box starts at the
+ * inline-start (the right edge, since it is a block box placed at the start of
+ * an RTL line), so moving it right pushes it out of the 36px track: the switch
+ * looks broken while enabled and normal while off. Mirror the travel.
+ * Specificity must beat the shipped (0,3,0) rule, hence the full chain. */
+html[dir="rtl"] ._switch_1ik0f_5[aria-checked=true] ._thumb_1ik0f_33 {
+  transform: translate(-16px);
+}
+
+/* Shipped: .wCInkW_nav{width:188px} and
+ *          .wCInkW_navLabel{white-space:nowrap;text-overflow:ellipsis;...}
+ * Arabic labels are systematically longer than their English sources, so the
+ * fixed 188px sidebar clipped the last word of "إعدادات الوكيل المسبقة" into an
+ * ellipsis. Let the label wrap and the row grow instead of widening the
+ * sidebar, which would move the whole settings geometry. */
+html[dir="rtl"] .wCInkW_navCell {
+  height: auto;
+  min-height: 40px;
+}
+
+html[dir="rtl"] .wCInkW_navLabel {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+}
+

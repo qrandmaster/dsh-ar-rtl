@@ -1,0 +1,17 @@
+{
+  "name": "@local/dsh-ar-rtl",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Arabic (RTL) language, bidirectional text handling, and LTR-preserved code blocks for the DSH Web GUI.",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js"
+  },
+  "dsh": {
+    "client": {
+      "platform": "web",
+      "immediately": true
+    }
+  }
+}

@@ -1,0 +1,12 @@
+# Research artifacts: English UI strings extracted from the installed build for
+# validation. They are intentionally not redistributed.
+inventory/
+
+# Generated distribution packages.
+dist/
+
+# Local tooling noise.
+node_modules/
+*.log
+.DS_Store
+Thumbs.db

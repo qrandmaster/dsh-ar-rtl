@@ -1,0 +1,12 @@
+{
+  "header.more": "إجراءات أخرى",
+  "menu.download": "تنزيل سجل الجلسة",
+  "menu.feedback": "ملاحظات",
+  "dialog.preparingTitle": "جارٍ تصدير الجلسة",
+  "dialog.preparingDescription": "جارٍ تحضير ملف ZIP يضم هذه الجلسة وجلساتها الفرعية ومرفقاتها.",
+  "dialog.successTitle": "بدأ تنزيل الجلسة",
+  "dialog.successDescription": "المتصفح ينزّل ملف ZIP الخاص بالجلسة.",
+  "dialog.errorTitle": "فشل تصدير الجلسة",
+  "dialog.close": "إغلاق",
+  "dialog.commandFailed": "تعذّر بدء تصدير الجلسة."
+}

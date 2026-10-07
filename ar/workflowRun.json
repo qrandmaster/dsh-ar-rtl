@@ -1,0 +1,20 @@
+{
+  "run.title": "⁨{name}⁩",
+  "run.members.one": "{count} عضو",
+  "run.members.other": "{count} أعضاء",
+  "run.empty": "لم يبدأ أي عضو",
+  "phase.unassigned": "بلا مرحلة",
+  "phase.empty": "اسم مرحلة فارغ",
+  "statusCount.running": "قيد التنفيذ {count}",
+  "statusCount.completed": "مكتمل {count}",
+  "statusCount.failed": "فشل {count}",
+  "statusCount.cancelled": "ملغى {count}",
+  "statusCount.interrupted": "متوقف {count}",
+  "member.empty": "اسم عضو فارغ",
+  "member.open": "فتح ⁨{name}⁩",
+  "status.running": "قيد التنفيذ",
+  "status.completed": "مكتمل",
+  "status.failed": "فشل",
+  "status.cancelled": "ملغى",
+  "status.interrupted": "متوقف"
+}

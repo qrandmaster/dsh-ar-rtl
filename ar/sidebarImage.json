@@ -1,0 +1,13 @@
+{
+  "zoomControls": "أدوات التكبير",
+  "zoomMenu": "اختر التكبير",
+  "zoomOut": "تصغير",
+  "zoomIn": "تكبير",
+  "zoomFitWidth": "ملاءمة العرض",
+  "zoomValue": "⁨{percent}%⁩",
+  "title": "صورة",
+  "preview": "معاينة الصورة: ⁨{name}⁩",
+  "loading": "جارٍ عرض المستند...",
+  "failed": "تعذّر عرض هذه الصورة.",
+  "unsupported": "تتطلب معاينة الصورة محتوى الملف كاملًا."
+}

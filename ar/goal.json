@@ -1,0 +1,14 @@
+{
+  "phase.active": "هدف جارٍ",
+  "phase.active.disarmed": "هدف غير مفعّل",
+  "phase.paused": "هدف متوقف مؤقتًا",
+  "phase.blocked": "هدف متعطّل",
+  "objective.aria": "الهدف المرجو",
+  "commandInput.aria": "إدخال الأوامر",
+  "action.save": "حفظ الهدف",
+  "action.cancel": "إلغاء التعديل",
+  "action.pause": "إيقاف الهدف مؤقتًا",
+  "action.resume": "استئناف الهدف",
+  "action.edit": "تعديل الهدف",
+  "action.clear": "مسح الهدف"
+}

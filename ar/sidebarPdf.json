@@ -1,0 +1,17 @@
+{
+  "zoomControls": "أدوات التكبير",
+  "zoomMenu": "اختر التكبير",
+  "zoomOut": "تصغير",
+  "zoomIn": "تكبير",
+  "zoomFitWidth": "ملاءمة العرض",
+  "zoomValue": "⁨{percent}%⁩",
+  "title": "PDF",
+  "pageImage": "صفحة PDF {page}",
+  "loading": "جارٍ عرض المستند...",
+  "rendering": "جارٍ عرض الصفحة…",
+  "failed": "تعذّر عرض PDF: ⁨{message}⁩",
+  "password": "يتطلب ملف PDF هذا كلمة مرور؛ المعاينات المحمية بكلمة مرور غير مدعومة.",
+  "workerFailed": "تعذّر على عملية عرض PDF المتابعة. يرجى إعادة المحاولة.",
+  "unsupported": "تتطلب معاينة PDF محتوى الملف كاملًا.",
+  "retry": "إعادة المحاولة"
+}

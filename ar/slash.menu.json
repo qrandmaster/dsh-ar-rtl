@@ -1,0 +1,11 @@
+{
+  "command": "أوامر",
+  "skill": "مهارات",
+  "subagent": "وكلاء فرعيون",
+  "loading": "جارٍ التحميل…",
+  "drill.aria": "تصفّح المجلد",
+  "drill.hint": "تصفّح المجلد",
+  "drill.key": "Tab",
+  "crumbs.aria": "تنقّل بين المجلدات",
+  "suggestions.aria": "اقتراحات التشغيل"
+}

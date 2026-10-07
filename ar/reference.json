@@ -1,0 +1,13 @@
+{
+  "section.files": "الملفات والمجلدات",
+  "section.subagents": "الوكلاء الفرعيون",
+  "section.sessions": "الجلسات",
+  "candidate.noCwd": "(بلا cwd)",
+  "crumb.root": "مساحة العمل",
+  "time.now": "الآن",
+  "time.minutes": "{n} د",
+  "time.hours": "{n} س",
+  "time.days": "{n} ي",
+  "time.months": "{n} ش",
+  "time.years": "{n} سنة"
+}

@@ -1,0 +1,19 @@
+{
+  "shortcut.noSession": "حدِّد جلسة أولًا",
+  "type.label": "ملفات",
+  "guide.title": "ملفات مساحة العمل",
+  "guide.description": "تصفّح الملفات في مساحة عمل هذه الجلسة",
+  "loading": "جارٍ القراءة…",
+  "empty": "مجلد فارغ",
+  "truncated": "عدد المدخلات كبير، ويُعرض بعضها فقط.",
+  "noWorkspace": "لا يوجد مجلد لمساحة عمل هذه الجلسة.",
+  "reload": "إعادة التحميل",
+  "autoRefresh": "تحديث تلقائي",
+  "autoRefresh.enable": "تفعيل التحديث التلقائي",
+  "autoRefresh.disable": "تعطيل التحديث التلقائي",
+  "entry.other": "ليس ملفًا ولا مجلدًا، لذا لا يمكن فتحه.",
+  "error.notFound": "هذا المجلد لم يعد موجودًا. ربما نُقل أو حُذف.",
+  "error.outsideWorkspace": "هذا المجلد خارج مساحة العمل، لذا لن يقرأه الشريط الجانبي.",
+  "error.notDirectory": "هذا ليس مجلدًا.",
+  "error.unavailable": "فشلت القراءة: ⁨{message}⁩"
+}

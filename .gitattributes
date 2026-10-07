@@ -1,0 +1,6 @@
+# Keep the repository newline-stable across platforms.
+* text=auto eol=lf
+
+# Windows command scripts must keep CRLF: cmd.exe can mis-handle LF in labels.
+*.bat text eol=crlf
+*.cmd text eol=crlf
