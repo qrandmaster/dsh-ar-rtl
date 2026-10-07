@@ -206,15 +206,11 @@ if (action === 'whoami') {
 
   if (zipPath) {
     const fileName = zipPath.split(/[\\/]/u).pop();
-    const file = readFileSync(zipPath);
-    const boundary = `----dshArRtl${Date.now().toString(16)}`;
-    const head = Buffer.from(
-      `--${boundary}\r\nContent-Disposition: form-data; name="file"; filename="${fileName}"\r\n` +
-        `Content-Type: application/zip\r\n\r\n`,
-      'utf8',
-    );
-    const tail = Buffer.from(`\r\n--${boundary}--\r\n`, 'utf8');
-    const payload = Buffer.concat([head, file, tail]);
+    // The asset endpoint stores the request body verbatim: it takes the RAW
+    // file, not a multipart envelope. Wrapping it in form-data once produced a
+    // downloadable "zip" that was 170 bytes larger than the archive and held
+    // zero entries.
+    const payload = readFileSync(zipPath);
 
     const uploaded = await new Promise((resolve, reject) => {
       const req = request(
@@ -226,7 +222,7 @@ if (action === 'whoami') {
             'User-Agent': 'dsh-ar-rtl-publisher',
             Accept: 'application/vnd.github+json',
             Authorization: `Bearer ${token}`,
-            'Content-Type': `multipart/form-data; boundary=${boundary}`,
+            'Content-Type': 'application/zip',
             'Content-Length': payload.length,
           },
         },
@@ -259,6 +255,33 @@ if (action === 'whoami') {
       process.stdout.write(`asset upload -> ${uploaded.status}: ${JSON.stringify(uploaded.body)}\n`);
       process.exit(1);
     }
+  }
+} else if (action === 'assets') {
+  const slug = rest[0];
+  const res = await api('GET', `/repos/${slug}/releases`);
+  if (res.status !== 200) {
+    process.stdout.write(`GET /releases -> ${res.status}\n`);
+    process.exit(1);
+  }
+  for (const release of res.body) {
+    process.stdout.write(`${release.tag_name} (id ${release.id}) -> ${release.html_url}\n`);
+    for (const asset of release.assets) {
+      process.stdout.write(`  asset id ${asset.id}: ${asset.name} (${asset.size} bytes)\n`);
+    }
+  }
+} else if (action === 'asset-delete') {
+  const slug = rest[0];
+  const assetId = rest[1];
+  if (!slug || !assetId) {
+    process.stderr.write('asset-delete needs owner/name and an asset id\n');
+    process.exit(2);
+  }
+  const res = await api('DELETE', `/repos/${slug}/releases/assets/${assetId}`);
+  if (res.status === 204) {
+    process.stdout.write(`deleted asset ${assetId}\n`);
+  } else {
+    process.stdout.write(`DELETE asset -> ${res.status}: ${JSON.stringify(res.body)}\n`);
+    process.exit(1);
   }
 } else {
   process.stderr.write(`unknown action: ${action}\n`);
