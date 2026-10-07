@@ -82,6 +82,57 @@ html[dir="rtl"] [class*="_markdown_"] :is(ul, ol) {
   padding-right: 18px;
 }
 
+/* --- Layer 2ج: علامة البند في نهاية السطر (على اليسار) --------------------
+ * طلب صريح من صاحب المشروع: أن تقع علامة البند **بعد** النص على حافته اليسرى،
+ * فيقرأ العين السطر من اليمين إلى اليسار ثم يجد العلامة في نهايته.
+ *
+ * ولا يمكن فعل ذلك بعلامة القائمة الأصلية (`::marker`) لأنها تُرسم دائماً في جهة
+ * البداية (اليمين في العربية). فتُلغى العلامة الأصلية ويُكتب بدلها صندوق `::after`
+ * وهو آخر صندوق سطري، فيقع في جهة النهاية = اليسار، **وملتصقاً بالنص** لأنه يتبع
+ * عرضه لا عرض السطر.
+ *
+ * وثلاثة قيود مقصودة:
+ *   1. البنود التي تحوي قائمة متداخلة تبقى بعلامتها الأصلية، لأن `::after` فيها
+ *      يهبط بعد القائمة المتداخلة فيظهر في سطر مستقل.
+ *   2. بنود المهام (checkbox) لا تُمَس.
+ *   3. لا تُطبَّق إلا على قوائم markdown، فلا تمسّ قوائم الواجهة الأخرى (بطاقات
+ *      الإعدادات مثلاً) التي ألغت علاماتها بنفسها. */
+
+html[dir="rtl"] [class*="_markdown_"] :is(ul, ol) > li:not(:has(> ul, > ol)):not(.task-list-item) {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 0.45em;
+}
+
+html[dir="rtl"] [class*="_markdown_"] ul > li:not(:has(> ul, > ol)):not(.task-list-item)::after {
+  content: "•";
+}
+
+/* عدّاد خاص بدل `list-item`: تغيير `display` إلى flex يُسقط عدّاد القائمة
+ * الأصلي، فلو استعملناه لظهر الرقم صفراً. */
+html[dir="rtl"] [class*="_markdown_"] ol {
+  counter-reset: rtl-ol;
+}
+
+html[dir="rtl"] [class*="_markdown_"] ol > li:not(:has(> ul, > ol)):not(.task-list-item) {
+  counter-increment: rtl-ol;
+}
+
+html[dir="rtl"] [class*="_markdown_"] ol > li:not(:has(> ul, > ol)):not(.task-list-item)::after {
+  content: counter(rtl-ol) ".";
+}
+
+/* tried: content with \2060 (WORD JOINER) — measured, and the marker still broke
+ * onto a line of its own when the text filled the line. A flex row cannot break:
+ * the marker is a sibling box, not a trailing inline. */
+html[dir="rtl"] [class*="_markdown_"] li:not(:has(> ul, > ol)):not(.task-list-item)::after {
+  color: var(--dsw-alias-label-secondary, currentColor);
+  white-space: nowrap;
+  flex: none;
+}
+
 /* The shipped wide-table breakout is physical and does not mirror by itself. */
 html[dir="rtl"] .md-table-wide {
   margin-left: 0;
