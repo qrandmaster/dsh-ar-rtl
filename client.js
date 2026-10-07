@@ -2773,6 +2773,7 @@ window.__ModuleLoader__.load({
         ? null
         : document.querySelector("style[data-plugin-css=" + JSON.stringify(CSS_TAG_ID) + "]") !== null;
       state.cssBytes = CSS.length;
+      state.cssRevision = "8539d687";
       globalThis.__DSH_AR_RTL__ = Object.assign(state, extra);
       return state;
     }

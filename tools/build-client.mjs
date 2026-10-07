@@ -16,6 +16,7 @@
  * Usage: node tools/build-client.mjs
  */
 import { readFileSync, writeFileSync, existsSync, readdirSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -26,6 +27,13 @@ const pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'));
 const PLUGIN_ID = pkg.name;
 
 const css = readFileSync(join(root, 'src', 'rtl.css'), 'utf8');
+
+/**
+ * بصمة الورقة الاتجاهية: تُطبع في تشخيص الإضافة كي يُعرف بنظرة واحدة أي نسخة من
+ * الورقة تعمل فعلاً في المتصفح. وهذا مهم لأن التطبيق قد يخدم حزمة قديمة من ذاكرة
+ * جلسة سابقة، فيبدو الإصلاح «لم يحدث» بينما السبب أن الورقة الجديدة لم تُحمَّل.
+ */
+const CSS_REVISION = createHash('sha256').update(css).digest('hex').slice(0, 8);
 
 const dictDir = join(root, 'ar');
 const indexFile = join(root, 'inventory', '_index.json');
@@ -97,6 +105,7 @@ window.__ModuleLoader__.load({
         ? null
         : document.querySelector("style[data-plugin-css=" + JSON.stringify(CSS_TAG_ID) + "]") !== null;
       state.cssBytes = CSS.length;
+      state.cssRevision = ${JSON.stringify(CSS_REVISION)};
       globalThis.__DSH_AR_RTL__ = Object.assign(state, extra);
       return state;
     }
