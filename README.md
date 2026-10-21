@@ -130,6 +130,7 @@ __DSH_AR_RTL__   // اللغة النشطة، والاتجاه، وعدد الن
 │  ├─ namespace-keys.json    أسماء المفاتيح فقط (القيم الإنجليزية لا تُعاد نشرها)
 │  ├─ export-keys.mjs        يعيد توليد namespace-keys.json من الجرد المحلي
 │  ├─ refresh-selectors.mjs  يعيد اكتشاف أسماء الأصناف المُهشَّرة بعد أي تحديث
+│  ├─ extract-current-en.mjs يعيد جرد قواميس البناء الجديد ويقارنها بالعربية
 │  └─ gh-api.mjs             عميل صغير لواجهة GitHub استُخدم في نشر هذا المستودع
 ├─ docs/HOW-IT-WORKS.md      الشرح التقني المعمّق
 ├─ scripts/publish.ps1       سكربت النشر على GitHub
@@ -164,6 +165,7 @@ node tools/build-client.mjs                  # إعادة توليد client.js
 node tools/selftest.mjs                      # 20 تحقّقاً على سلوك الحزمة
 node tools/validate-ar.mjs                   # مطابقة القواميس
 node tools/refresh-selectors.mjs --dry-run   # فحص الورقة مقابل البناء المثبّت
+node tools/extract-current-en.mjs           # جرد قواميس البناء الجديد (يتطلّب app.asar)
 ```
 
 يحتاج `refresh-selectors.mjs` إلى تثبيت محلي للتطبيق (يقرأ `app.asar`). ويعمل

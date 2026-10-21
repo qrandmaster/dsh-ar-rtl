@@ -32,5 +32,12 @@
   "connection.connecting": "جارٍ إعادة الاتصال",
   "connection.connected": "متصل",
   "connection.reconnect": "غير متصل، أعد الاتصال الآن",
-  "connection.restart": "جارٍ إعادة الاتصال، أعد الاتصال الآن"
+  "connection.restart": "جارٍ إعادة الاتصال، أعد الاتصال الآن",
+  "hostRelease.title": "تغيّرت نسخة الخدمة",
+  "hostRelease.description": "تغيّرت نسخة الخدمة. أوقفت هذه الصفحة التحديثات الحية؛ أعد التحميل لجلب النسخة الجديدة.",
+  "hostRelease.service": "الخدمة",
+  "hostRelease.page": "الصفحة",
+  "hostRelease.unknown": "مجهول",
+  "hostRelease.reload": "أعد التحميل لجلب النسخة الجديدة",
+  "hostRelease.later": "ليس الآن"
 }

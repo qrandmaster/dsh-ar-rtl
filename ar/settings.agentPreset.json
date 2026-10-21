@@ -38,6 +38,12 @@
   "noDescription": "لا يوجد وصف.",
   "brokenBadge": "فشل التحميل",
   "switchRefused": "تعذّر التبديل إلى ⁨{name}⁩: {reason}",
+  "standardUnavailable": "الوضع القياسي غير متاح. استعده أو اختر وضعاً آخر متاحاً.",
   "close": "إغلاق",
-  "creatorDraft": "دع الوكيل يساعدني في إنشاء إعداد مسبق"
+  "creatorDraft": "دع الوكيل يساعدني في إنشاء إعداد مسبق",
+  "createPlugin": "اطلب من الوكيل إنشاء إضافة",
+  "createPluginDescription": "ادخل وضع المنشئ واصنع إضافتك الخاصة ل⁨DSH⁩",
+  "createPluginChecking": "جارٍ التحقق من توفر وضع المنشئ",
+  "createPluginUnavailable": "غير متاح مؤقتاً. أعد فتح هذه القائمة لإعادة المحاولة",
+  "createPluginMissing": "وضع المنشئ غير مشمول في هذه التهيئة"
 }

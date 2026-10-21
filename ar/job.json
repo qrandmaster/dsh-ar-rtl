@@ -28,6 +28,7 @@
   "terminal.signal": "الإشارة {signal}",
   "terminal.exitCode": "رمز الخروج ⁨{code}⁩",
   "terminal.noExitCode": "لا يوجد رمز خروج",
+  "terminal.commandLine": "سطر الأمر ⁨{n}⁩",
   "terminal.running": "قيد التنفيذ",
   "terminal.failed": "فشل",
   "terminal.done": "تم",

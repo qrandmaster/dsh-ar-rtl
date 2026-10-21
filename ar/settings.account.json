@@ -76,6 +76,7 @@
   "completing": "جارٍ إكمال تسجيل الدخول…",
   "expired": "انتهت صلاحية تسجيل الدخول. حاول مرة أخرى.",
   "failed": "تعذّر إكمال العملية. حاول مرة أخرى.",
+  "noResponse": "حدث خطأ ما. تحقق من اتصالك بالشبكة وأعد المحاولة.",
   "settingsSignedOutTitle": "أنت غير مسجّل الدخول إلى DeepSeek Harness",
   "settingsSignedOutDescription": "سجّل الدخول إلى DeepSeek Harness للحصول على مفتاح API المخصّص لك",
   "signInDescription": "استخدم حساب DeepSeek الخاص بك للبدء.",

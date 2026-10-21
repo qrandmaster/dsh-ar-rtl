@@ -187,10 +187,12 @@ if (action === 'whoami') {
     process.exit(2);
   }
   const zipPath = valueOf('--zip');
+  const notesFile = valueOf('--notes-file');
+  const nameFile = valueOf('--name-file');
   const created = await api('POST', `/repos/${slug}/releases`, {
     tag_name: tag,
-    name: valueOf('--name') ?? tag,
-    body: valueOf('--notes') ?? '',
+    name: nameFile ? readFileSync(nameFile, 'utf8').trim() : (valueOf('--name') ?? tag),
+    body: notesFile ? readFileSync(notesFile, 'utf8') : (valueOf('--notes') ?? ''),
     draft: false,
     prerelease: false,
   });
