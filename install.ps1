@@ -212,7 +212,7 @@ if ($Update) {
 
   Write-Host ''
   Write-Host "Updated in $target"
-  Write-Host 'Reload http://127.0.0.1:19387 to pick up the new bundle.'
+  Write-Host 'Reload the DSH GUI (or restart it) to pick up the new bundle.'
   return
 }
 

@@ -258,6 +258,18 @@ if (action === 'whoami') {
       process.exit(1);
     }
   }
+} else if (action === 'release-edit') {
+  const slug = rest[0];
+  const id = rest[1];
+  if (!slug || !id) { process.stderr.write('release-edit needs owner/name and a release id\n'); process.exit(2); }
+  const nameFile = valueOf('--name-file');
+  const notesFile = valueOf('--notes-file');
+  const patch = {};
+  if (nameFile) patch.name = readFileSync(nameFile, 'utf8').trim();
+  if (notesFile) patch.body = readFileSync(notesFile, 'utf8');
+  const res = await api('PATCH', `/repos/${slug}/releases/${id}`, patch);
+  process.stdout.write(res.status === 200 ? `updated release ${id}: ${res.body.name}\n` : `PATCH release -> ${res.status}: ${JSON.stringify(res.body)}\n`);
+  process.exit(res.status === 200 ? 0 : 1);
 } else if (action === 'release-delete') {
   const slug = rest[0];
   const id = rest[1];
