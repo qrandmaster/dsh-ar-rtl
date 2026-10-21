@@ -10,3 +10,7 @@ node_modules/
 *.log
 .DS_Store
 Thumbs.db
+
+# حارس: مسارات ويندوز غير موسَّعة قد تُنشئ مجلداً حرفياً بهذا الاسم.
+%SystemDrive%/
+%USERPROFILE%/
