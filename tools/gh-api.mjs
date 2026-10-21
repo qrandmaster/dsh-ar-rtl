@@ -258,6 +258,13 @@ if (action === 'whoami') {
       process.exit(1);
     }
   }
+} else if (action === 'release-delete') {
+  const slug = rest[0];
+  const id = rest[1];
+  if (!slug || !id) { process.stderr.write('release-delete needs owner/name and a release id\n'); process.exit(2); }
+  const res = await api('DELETE', `/repos/${slug}/releases/${id}`);
+  process.stdout.write(res.status === 204 ? `deleted release ${id}\n` : `DELETE release -> ${res.status}: ${JSON.stringify(res.body)}\n`);
+  process.exit(res.status === 204 ? 0 : 1);
 } else if (action === 'assets') {
   const slug = rest[0];
   const res = await api('GET', `/repos/${slug}/releases`);
@@ -283,6 +290,19 @@ if (action === 'whoami') {
     process.stdout.write(`deleted asset ${assetId}\n`);
   } else {
     process.stdout.write(`DELETE asset -> ${res.status}: ${JSON.stringify(res.body)}\n`);
+    process.exit(1);
+  }
+} else if (action === 'describe') {
+  const slug = rest[0];
+  if (!slug) { process.stderr.write('describe needs owner/name\n'); process.exit(2); }
+  const file = valueOf('--description-file');
+  const description = file ? readFileSync(file, 'utf8').trim() : valueOf('--description');
+  if (!description) { process.stderr.write('describe needs --description or --description-file\n'); process.exit(2); }
+  const res = await api('PATCH', `/repos/${slug}`, { description, has_issues: true, has_wiki: false, has_projects: false });
+  if (res.status === 200) {
+    process.stdout.write('description updated:\n' + res.body.description + '\n');
+  } else {
+    process.stdout.write(`PATCH /repos/${slug} -> ${res.status}: ${JSON.stringify(res.body)}\n`);
     process.exit(1);
   }
 } else {

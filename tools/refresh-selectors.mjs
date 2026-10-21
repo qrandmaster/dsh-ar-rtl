@@ -71,6 +71,10 @@ const tokens = [
   { token: 'v1fjQa', what: 'question and answer box', signature: /\.([A-Za-z0-9_-]{4,12})_bubble\{[^}]*max-width:72%/u },
   { token: '1ik0f', what: 'switch primitive', signature: /_switch_([A-Za-z0-9]+)_\d+\[aria-checked=true\]\s*\._thumb_\1_\d+\{transform:translate\(16px\)\}/u },
   { token: '4ub78', what: 'menu primitive', signature: /\._item_([A-Za-z0-9]+)_\d+\{[^}]*text-align:left[^}]*\}/u },
+  { token: 'd99neW', what: 'plugin market', signature: /\.([A-Za-z0-9_-]{4,12})_marketButton\{[^}]*margin-left:-8px\}/u },
+  { token: 'jmg6Sq', what: 'deliverables summary', signature: /\.([A-Za-z0-9_-]{4,12})_summary\{[^}]*margin-left:8px[^}]*\}/u },
+  { token: 'LFNH1G', what: 'deliverables tools row', signature: /\.([A-Za-z0-9_-]{4,12})_tools\{[^}]*margin-left:auto[^}]*\}/u },
+  { token: 'kuvljq', what: 'changes panel', signature: /\.([A-Za-z0-9_-]{4,12})_toggle\{[^}]*padding:10px 18px 10px 14px[^}]*\}/u },
 ];
 
 /**

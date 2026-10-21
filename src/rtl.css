@@ -1,5 +1,5 @@
 /* ---------------------------------------------------------------------------
- * Arabic (RTL) overrides for the DSH Web GUI — build 0.2.0-rc.2.
+ * Arabic (RTL) overrides for the DSH Web GUI — build 0.2.1-rc.2 (layers 1-13).
  *
  * Verified constraints behind this sheet:
  *   - No shipped stylesheet contains `direction:` (outside `flex-direction`) or
@@ -461,3 +461,46 @@ html[dir="rtl"] {
   --dsh-windows-menu-start: var(--dsh-ar-rtl-titlebar-start, 152px);
 }
 
+
+/* --- Layer 13: مكوّناتٌ أضافها البناء 0.2.1 --------------------------------
+ * مكوّنات ظهرت بعد البناء الذي رُوجعت عليه الورقة (سوق الإضافات، ولوحة تسليم
+ * المخرجات ومراجعة الفروق)، وما زالت تحمل محاذاةً وإزاحات فيزيائية. وكل قاعدة
+ * أدناه منقولة بنصّ القاعدة المشحونة التي تبرّرها:
+ *
+ *   .d99neW_marketButton{max-width:240px;margin-left:-8px;font-weight:500}
+ *   .d99neW_cardOpen{…;text-align:left;…}                 ← عنوان بطاقة الإضافة
+ *   .jmg6Sq_summary{…;gap:8px;margin-left:8px;…}          ← صفّ ملخّص التسليم
+ *   .LFNH1G_tools{flex:none;…;margin-left:auto;…}         ← صفّ أدوات لوحة التغييرات
+ *   .kuvljq_header{…;text-align:left;…}                   ← ترويسة لوحة التعديلات
+ *   .kuvljq_toggle{…;text-align:left;…;padding:10px 18px 10px 14px;…}
+ *
+ * والموضعان المشحونان بـtext-align:left هنا (ترويسة التغييرات ومفتاحها) نصّهما
+ * عربي، بخلاف معاينة البيانات الخام في مفتّش الجلسة وعمود أرقام الأسطر في عارض
+ * الفروق: فهذان محتواهما شيفرةٌ وبيانات، فتُركت محاذاتهما كما شُحنت عن قصد. */
+html[dir="rtl"] .d99neW_marketButton {
+  margin-left: 0;
+  margin-right: -8px;
+}
+
+html[dir="rtl"] .d99neW_cardOpen {
+  text-align: right;
+}
+
+html[dir="rtl"] .jmg6Sq_summary {
+  margin-left: 0;
+  margin-right: 8px;
+}
+
+html[dir="rtl"] .LFNH1G_tools {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+html[dir="rtl"] .kuvljq_header {
+  text-align: right;
+}
+
+html[dir="rtl"] .kuvljq_toggle {
+  text-align: right;
+  padding: 10px 14px 10px 18px;
+}
