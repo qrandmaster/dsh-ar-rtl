@@ -73,17 +73,6 @@
   و`v1fjQa_options` كان `padding-left`).
 * أضيفت المكوّنات الثلاثة إلى `tools/refresh-selectors.mjs`، فصار يتابع 16 مكوّناً بدل 13.
 
-## 1.0.1
-
-* تحويل وثائق المستودع كاملة إلى العربية: `README.md` و`CHANGELOG.md`
-  و`docs/HOW-IT-WORKS.md`، مع إبقاء الإنجليزية للمصطلحات التقنية وأسماء الملفات والأوامر فقط.
-* أسماء خطوات التحقق الآلي بالعربية لتظهر كذلك في تبويب Actions.
-* تعليقات `.gitignore` و`.gitattributes` بالعربية.
-* إبقاء الملفات التنفيذية (`install.ps1` و`publish.ps1` و`bootstrap.ps1` وملفات `.bat`)
-  إنجليزية عمداً مع شرح السبب في `README.md`: فـWindows PowerShell 5.1 يقرأ السكربت بترميز
-  ANSI عند غياب BOM، و`bootstrap.ps1` لا يقبل BOM لأنه يُنفَّذ عبر `irm … | iex`، و`cmd.exe`
-  يقرأ ملفات `.bat` بترميز النظام.
-
 ## 1.0.0
 
 أول إصدار عام.
