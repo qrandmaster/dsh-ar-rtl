@@ -369,6 +369,8 @@
     "hero.preview",
     "hero.chooseWorkspace",
     "session.hierarchy",
+    "session.moreViews",
+    "session.moreViewsCurrent",
     "todo.title",
     "todo.progress.done",
     "todo.progress.active",
@@ -899,6 +901,13 @@
     "code.copy",
     "code.copied",
     "footnotes"
+  ],
+  "entryCustomization": [
+    "install",
+    "create",
+    "createPrompt.sidebar",
+    "createPrompt.conversation",
+    "createPrompt.rightbar"
   ],
   "feedback": [
     "action.like",
@@ -2362,7 +2371,8 @@
     "session.new.label",
     "toggle.open",
     "toggle.collapse",
-    "panels.label"
+    "panels.label",
+    "panels.more"
   ],
   "sidebarBrowser": [
     "type.label",
@@ -2538,6 +2548,7 @@
     "dock.drop.top",
     "dock.drop.bottom",
     "tab.guide.title",
+    "tab.guide.more",
     "tab.unavailable"
   ],
   "sidebarTerminal": [

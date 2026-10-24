@@ -68,6 +68,8 @@
   "hero.preview": "معاينة",
   "hero.chooseWorkspace": "اختيار مساحة عمل",
   "session.hierarchy": "التسلسل الهرمي للجلسات",
+  "session.moreViews": "المزيد من عروض المحادثة",
+  "session.moreViewsCurrent": "المزيد من عروض المحادثة · {name}",
   "todo.title": "قوائم المهام",
   "todo.progress.done": "{done} مكتمل",
   "todo.progress.active": "{active} قيد التنفيذ",

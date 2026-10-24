@@ -108,14 +108,12 @@ html[dir="rtl"] [contenteditable="plaintext-only"] {
   unicode-bidi: plaintext;
 }
 
-/* --- Layer 3: code, commands, and identifiers stay LTR --------------------
- * Forcing `direction: ltr` also re-resolves the shipped logical properties
- * (`inset-inline-start`, `text-align: end`, `padding-inline-start`) onto the
- * code's own left edge, so the line-number gutter needs no extra override. */
+/* --- Layer 3: inline code, commands, and identifiers stay LTR ------------
+ * Anything that sits INSIDE Arabic prose — `:not(pre) > code`, `kbd`, `samp` —
+ * stays an LTR isolate, so a path or `Ctrl + ,` never flips around the
+ * sentence. Code BLOCKS are not inline runs; they read from the Arabic side
+ * and are handled in Layer 3ب. */
 
-html[dir="rtl"] body :is(.md-code-block, [data-terminal]) [data-code-block-content],
-html[dir="rtl"] body :is(.md-code-block, [data-terminal]) [data-code-block-content] pre,
-html[dir="rtl"] body :is(.md-code-block, [data-terminal]) [data-code-block-content] code,
 html[dir="rtl"] body :not(pre) > code,
 html[dir="rtl"] body kbd,
 html[dir="rtl"] body samp {
@@ -135,29 +133,29 @@ html[dir="rtl"] [data-dsh-rtl-mirror] {
 }
 
 /* "More account information" ships as IconRightUpOutlineRegular (↗). */
-html[dir="rtl"] ._8RVnMG_accountInfo svg {
+html[dir="rtl"] ._6qcDqa_accountInfo svg {
   transform: scaleX(-1);
 }
 
 /* Drill-in chevrons that point "forward" (right) in LTR. */
-html[dir="rtl"] .wq12jW_cellChevron,
-html[dir="rtl"] .fO69Vq_rowOpenIcon {
+html[dir="rtl"] ._9r0rkG_cellChevron,
+html[dir="rtl"] .V7pFBG_rowOpenIcon {
   transform: scaleX(-1);
 }
 
 /* The breadcrumb separator ships as a down chevron rotated 90deg. */
-html[dir="rtl"] .fO69Vq_crumbIcon {
+html[dir="rtl"] .V7pFBG_crumbIcon {
   transform: rotate(-90deg);
 }
 
 /* The sidebar collapse control ships as IconPanelLeftOutlineRegular. */
-html[dir="rtl"] ._2H3hWW_panelIcon {
+html[dir="rtl"] .wtg9ga_panelIcon {
   transform: scaleX(-1);
 }
 
 /* Windows titlebar fix: the sidebar moves to the right under dir="rtl", so its
  * fixed toggle must leave the physical left edge. */
-html[dir="rtl"] [data-windows-titlebar] ._2H3hWW_toggle {
+html[dir="rtl"] [data-windows-titlebar] .wtg9ga_toggle {
   left: auto;
   right: 12px;
 }
@@ -167,64 +165,64 @@ html[dir="rtl"] [data-windows-titlebar] ._2H3hWW_toggle {
  * (for example the settings navigation), so it was removed deliberately. */
 
 /* --- Layer 5: composer action row ----------------------------------------
- * `.RlGAzG_trailing{flex:none;gap:12px;margin-left:auto}` is why the send
+ * `.GRgSLq_trailing{flex:none;gap:12px;margin-left:auto}` is why the send
  * button floated mid-row with an empty gap at the left edge: that auto margin
  * is physical. Flipping it parks the model selector and send button against
  * the left edge; the remaining physical paddings are mirrored to match. */
 
-html[dir="rtl"] .RlGAzG_trailing {
+html[dir="rtl"] .GRgSLq_trailing {
   margin-left: 0;
   margin-right: auto;
 }
 
-html[dir="rtl"] .RlGAzG_scroll {
+html[dir="rtl"] .GRgSLq_scroll {
   margin-right: 0;
   margin-left: 4px;
 }
 
-html[dir="rtl"] .RlGAzG_input {
+html[dir="rtl"] .GRgSLq_input {
   padding: 4px 14px 0 8px;
 }
 
-html[dir="rtl"] .RlGAzG_placeholder {
+html[dir="rtl"] .GRgSLq_placeholder {
   inset: 4px 14px auto 8px;
 }
 
 /* The select arrow is a background image pinned to the physical right. */
-html[dir="rtl"] .RlGAzG_select {
+html[dir="rtl"] .GRgSLq_select {
   background-position: left 4px center;
   padding: 0 8px 0 20px;
 }
 
-html[dir="rtl"] .RlGAzG_retry {
+html[dir="rtl"] .GRgSLq_retry {
   margin-left: 0;
   margin-right: 8px;
 }
 
 /* The model and permission selectors share the same physical trigger padding. */
-html[dir="rtl"] .wq12jW_trigger,
-html[dir="rtl"] .dlU_AG_trigger {
+html[dir="rtl"] ._9r0rkG_trigger,
+html[dir="rtl"] ._86kJGG_trigger {
   padding: 0 8px 0 4px;
 }
 
 /* Model picker: the search field reserves room on the right for its clear
  * button, and the value column is explicitly right-aligned. */
-html[dir="rtl"] .wq12jW_searchRow .wq12jW_searchWithQuery {
+html[dir="rtl"] ._9r0rkG_searchRow ._9r0rkG_searchWithQuery {
   padding-right: 7px;
   padding-left: 34px;
 }
 
-html[dir="rtl"] .wq12jW_searchClear {
+html[dir="rtl"] ._9r0rkG_searchClear {
   right: auto;
   left: 4px;
 }
 
-html[dir="rtl"] .wq12jW_cellValue {
+html[dir="rtl"] ._9r0rkG_cellValue {
   text-align: left;
 }
 
-html[dir="rtl"] .wq12jW_cell,
-html[dir="rtl"] .wq12jW_option {
+html[dir="rtl"] ._9r0rkG_cell,
+html[dir="rtl"] ._9r0rkG_option {
   text-align: right;
 }
 
@@ -234,9 +232,9 @@ html[dir="rtl"] .wq12jW_option {
  * mirrors. */
 
 html[dir="rtl"] ._item_4ub78_90,
-html[dir="rtl"] .fO69Vq_cardOpen,
-html[dir="rtl"] .KZf9OG_cardMain,
-html[dir="rtl"] ._2H3hWW_panelRow {
+html[dir="rtl"] .V7pFBG_cardOpen,
+html[dir="rtl"] .Wsg8iW_cardMain,
+html[dir="rtl"] .wtg9ga_panelRow {
   text-align: right;
 }
 
@@ -250,40 +248,96 @@ html[dir="rtl"] ._itemLabel_4ub78_190 {
  * plus is neutral and jumps to the wrong end without isolation, so `Ctrl + ,`
  * must be fenced as one LTR unit. */
 html[dir="rtl"] ._shortcut_4ub78_198,
-html[dir="rtl"] ._2H3hWW_newSessionShortcut,
+html[dir="rtl"] .wtg9ga_newSessionShortcut,
 html[dir="rtl"] kbd {
   direction: ltr;
   unicode-bidi: isolate;
 }
 
 /* --- Layer 7: markdown tables -------------------------------------------
- * The markdown renderer emits an inline text-align for a :--- delimiter
- * column, and an inline style outranks a plain stylesheet rule — which is why
- * a table written with alignment markers stays left-aligned inside an RTL
- * transcript. !important is required for exactly that reason.
+ * المشحون في الواجهة (dsh-web-frontend, dist/assets/index-BNyAYEM7.css، وحدة
+ * `_tableScroll_1ypvv_192`):
+ *   .{tableScroll} th{text-align:start;padding:10px 16px;…}
+ *   .{tableScroll} td{padding:10px 16px;…}
+ *   .{tableScroll} th:first-child, .{tableScroll} td:first-child{padding-left:0}
+ *   .{tableScroll} td:last-child{padding-right:0}
  *
- * RTL last-column alignment only: under dir="rtl" the rightmost rendered
- * column corresponds to the DOM :last-child of th/td. Only that column’s
- * header and body cells are right-aligned so the header lines up with the
- * cells beneath it (e.g. the last column of a 4-column table). Earlier
- * columns keep their shipped alignment. This targets the last column only,
- * not every cell in every table. */
+ * والمُصيّر (`aU/J8` في حزمة العميل) يطبّق محاذاة كل عمود **موسوم** كـstyle
+ * مضمن على th وtd معاً، والعمود المكتوب بلا علامات لا يأخذ style إطلاقاً فيأخذ
+ * قاعدة الشحن `text-align:start` (= اليمين في RTL) — فمحاذاة النصّ ليست الخلل،
+ * ولذلك لم تُغنِ المحاولة السابقة (`th:not([style*="text-align"])` بيمين
+ * صريح) شيئاً: الشحون يمنح th نفس المحاذاة أصلاً.
+ *
+ * الخلل المكسوب (المشكلة 1): اقتطاعا الحشوة فيزيائيان. العمود الأول في المستند
+ * (وهو يمين الجدول في RTL) يفقد حشوة يساره وهي حافته **الداخلية** هنا، فيبقى
+ * 16px على حافته الخارجية؛ وعمود td الأخير يفقد حشوة يمينه وهي **جهة بداية
+ * نصّه** في RTL، بينما يحتفظ رأس th بها كاملة — فيبدأ نصّ الرأس 16px إلى يسار
+ * نصّ خلاياه. القياس في صفحة محاكية استُخرجت من الشحون أثبت الانحراف:
+ * العمود الأخير deltaRight = 16px في ثلاثة جداول (th مقابل td).
+ *
+ * الإصلاح: عكس الاقتطاعين — عمود البداية إلى اليمين (حافته الخارجية في RTL)
+ * وعمود النهاية إلى اليسار، مع إعادة 16px إلى الجهة المقابلة. والأعمدة
+ * الموسومة (`:---`/`---:`/`:---:`) تحفظ محاذاتها المؤلفة لأن الـstyle
+ * المضمن يفوز دائماً. والمحددات بنيوية على بادئة الوحدة `_markdown_` لأن
+ * هاشها يتغيّر كل بناء. */
 
-html[dir="rtl"] [data-conversation-region="chat"] :is(th, td):first-child,
-html[dir="rtl"] .md-table-wide :is(th, td):first-child,
-html[dir="rtl"] [data-conversation-region="chat"] table :is(th, td):first-child,
-html[dir="rtl"] :is(table, [role="table"]) :is(th, td):first-child {
-  text-align: right !important;
+html[dir="rtl"] [class*="_markdown_"] table th:not([style*="text-align"]) {
+  text-align: start;
 }
 
-/* --- Layer 7ب: شفرات تحتوي نصاً عربياً (صور 2 و4) ---
- * كتل الشفرات والنوافذ الطرفية التي تحتوي نصوصاً عربية يجب أن تحتفظ باتجاه RTL
- * للنص العربي مع عزل المقاطع اللاتينية (المسارات) حتى لا تتقدم وتتأخر.
- * ويُعرض السطر كاملاً دون اقتصاص. */
+html[dir="rtl"] [class*="_markdown_"] table th:first-child,
+html[dir="rtl"] [class*="_markdown_"] table td:first-child {
+  padding-left: 16px;
+  padding-right: 0;
+}
 
-html[dir="rtl"] [data-terminal],
-html[dir="rtl"] .md-code-block,
-html[dir="rtl"] [data-code-block-content] {
+html[dir="rtl"] [class*="_markdown_"] table td:last-child {
+  padding-right: 16px;
+  padding-left: 0;
+}
+
+/* --- Layer 3ب: كتل الشيفرة (markdown) تقرأ من اليمين ---------------------
+ * المشحون: كتلة الشيفرة `div.md-code-block` تحوي `[data-code-block-content]`
+ * (display:contents) ثم `pre`. والمصنّف في الواجهة يطبّق المحاذاة على كل خلية… لا،
+ * بل على السطور: `pre{white-space:pre-wrap;word-break:break-all}`.
+ *
+ * والخلل (المشكلة 2): الطبقة 3 السابقة كانت تفرض `direction: ltr !important`
+ * على `[data-code-block-content]` و`pre` و`code`، فسطر عربي مثل
+ *   «فورمات ← إعادة تثبيت DSH ← فتح جلسة ← …»
+ * كان يُعرض بجريان LTR: أول كلمة في المصدر تظهر في أقصى اليسار، فيقرأها العربي
+ * من اليمين فيبدأ من آخر الكلمة، وينفصل المصطلح اللاتيني `DSH` عن «إعادة
+ * تثبيت» فيقع قبلها بدل أن يقع بعدها (قاعدة bidi: في فقرة LTR يُوضع المقطع
+ * اللاتيني اللاحق يمين المقطع العربي).
+ *
+ * الإصلاح: الكتلة كلها RTL، والسطور تُحاذى يميناً، وكل سطر يأخذ اتجاهه من أول
+ * حرف قويّ فيه عبر `unicode-bidi: plaintext` — فالسطر العربي يقرأ يميناً
+ * («فورمات» أولاً، ثم «إعادة تثبيت DSH» و`DSH` بعدها إلى يسارها)، والسطر
+ * الإنجليزي الخام يبقى كلماته بترتيبها الصحيح مع محاذاة يمينية. وبهذا تلتزم
+ * الكتلة بالقاعدة المطلوبة: لا يختلط سطر يميني بسطر يساري في كتلة واحدة —
+ * الكل يبدأ من الحافة اليمنى. */
+
+html[dir="rtl"] .md-code-block {
+  direction: rtl;
+}
+
+html[dir="rtl"] .md-code-block [data-code-block-content],
+html[dir="rtl"] .md-code-block [data-code-block-content] pre,
+html[dir="rtl"] .md-code-block [data-code-block-content] code {
+  direction: rtl;
+  unicode-bidi: plaintext;
+  text-align: right !important;
+  white-space: pre-wrap;
+  overflow-wrap: normal;
+}
+
+/* السطور المرقّمة تُعالج سطراً سطراً لأنها كتل مستقلة. */
+html[dir="rtl"] .md-code-block [data-code-block-content] .line {
+  unicode-bidi: plaintext;
+  text-align: right;
+}
+
+/* --- الطرفية: تبقى كما شُحنت في الجولة السابقة (خارج نطاق إصلاح الشيفرات) --- */
+html[dir="rtl"] [data-terminal] {
   direction: rtl;
   unicode-bidi: isolate;
   text-align: right !important;
@@ -291,78 +345,75 @@ html[dir="rtl"] [data-code-block-content] {
   white-space: pre-wrap;
 }
 
-/* العزل للمقاطع اللاتينية داخل السطور العربية المختلطة */
-html[dir="rtl"] [data-terminal] :is(code, kbd, samp),
-html[dir="rtl"] .md-code-block :is(code, kbd, samp),
-html[dir="rtl"] [data-code-block-content] :is(code, kbd, samp) {
+html[dir="rtl"] [data-terminal] :is(code, kbd, samp) {
   direction: ltr;
   unicode-bidi: isolate;
 }
 
 /* --- Layer 8: remaining physical offsets from the CSS audit -------------- */
 
-html[dir="rtl"] .Dc7zOa_header {
+html[dir="rtl"] .an3WzG_header {
   padding: 10px 20px 0 28px;
 }
 
-html[dir="rtl"] .Dc7zOa_headerUtilities {
+html[dir="rtl"] .an3WzG_headerUtilities {
   margin-left: 0;
   margin-right: 20px;
 }
 
-html[dir="rtl"] .Dc7zOa_headerCorner {
+html[dir="rtl"] .an3WzG_headerCorner {
   margin-left: -16px;
   margin-right: 8px;
 }
 
-html[dir="rtl"] .Dc7zOa_headerBlank .Dc7zOa_headerCorner {
+html[dir="rtl"] .an3WzG_headerBlank .an3WzG_headerCorner {
   margin-left: 0;
   margin-right: auto;
 }
 
-html[dir="rtl"] .Dc7zOa_scrollBody {
+html[dir="rtl"] .an3WzG_scrollBody {
   margin-right: 0;
   margin-left: 2px;
 }
 
-html[dir="rtl"] .Dc7zOa_heroWorkspaceRow {
+html[dir="rtl"] .an3WzG_heroWorkspaceRow {
   padding: 0 20px 0 16px;
 }
 
 /* The scrollbar sits on the left under RTL, so the composer seat must reserve
  * room on that side instead. */
-html[dir="rtl"] .Dc7zOa_composerSeat {
+html[dir="rtl"] .an3WzG_composerSeat {
   right: 0;
   left: var(--dsh-scrollbar-width);
 }
 
-html[dir="rtl"] ._3nPmjq_rowActions {
+html[dir="rtl"] .jrmgQW_rowActions {
   margin-left: 0;
   margin-right: auto;
 }
 
-html[dir="rtl"] .KZf9OG_cardHelp {
+html[dir="rtl"] .Wsg8iW_cardHelp {
   margin-right: 0;
   margin-left: auto;
 }
 
-html[dir="rtl"] .fO69Vq_registryCustomField,
-html[dir="rtl"] .fO69Vq_registryOption > .fO69Vq_inputError,
-html[dir="rtl"] .fO69Vq_registryOption > .fO69Vq_registryHint {
+html[dir="rtl"] .V7pFBG_registryCustomField,
+html[dir="rtl"] .V7pFBG_registryOption > .V7pFBG_inputError,
+html[dir="rtl"] .V7pFBG_registryOption > .V7pFBG_registryHint {
   margin-left: 0;
   margin-right: 26px;
 }
 
-html[dir="rtl"] .fO69Vq_rowFailure {
+html[dir="rtl"] .V7pFBG_rowFailure {
   margin: 4px 56px 0 0;
 }
 
-html[dir="rtl"] .fO69Vq_dependents {
+html[dir="rtl"] .V7pFBG_dependents {
   padding-left: 0;
   padding-right: 18px;
 }
 
-html[dir="rtl"] .KZf9OG_brokenTip {
+html[dir="rtl"] .Wsg8iW_brokenTip {
   text-align: right;
   left: auto;
   right: 0;
@@ -379,10 +430,10 @@ html[dir="rtl"] .KZf9OG_brokenTip {
  *   XZcbxG_rowText     chat-link target row
  *   mP3ANa_rowText     settings row (imports/paths)
  *   _3HsggG_rowText    settings row (stepper family)
- *   _3Y3Nma_settingText keyboard-shortcuts row
+ *   St8tea_settingText keyboard-shortcuts row
  *   _0Fr0Ha_rowText    numeric stepper row (for example font size) */
 
-html[dir="rtl"] :is(.Hefa_q_rowText, .XZcbxG_rowText, ._0Fr0Ha_rowText, ._3HsggG_rowText, ._3Y3Nma_settingText, .mP3ANa_rowText) {
+html[dir="rtl"] :is(.-TO4SG_rowText, .CDP_Dq_rowText, .St8tea_settingText, .V68kMG_rowText, ._1jfq5W_rowText, ._7qxJPq_rowText) {
   padding-right: 0;
   padding-left: 48px;
 }
@@ -394,19 +445,19 @@ html[dir="rtl"] ._0Fr0Ha_arrows {
 }
 
 /* The shortcuts dialog: header padding and the close button are physical. */
-html[dir="rtl"] ._3Y3Nma_header {
+html[dir="rtl"] .St8tea_header {
   padding: 22px 24px 0 54px;
 }
 
-html[dir="rtl"] ._3Y3Nma_close {
+html[dir="rtl"] .St8tea_close {
   right: auto;
   left: 14px;
 }
 
-/* .wCInkW_navCell{...;text-align:left;...;padding:9px 16px 9px 12px} with
- * .wCInkW_navLabel{flex:1} — the label stretches across the row and its text
+/* .AnXs9G_navCell{...;text-align:left;...;padding:9px 16px 9px 12px} with
+ * .AnXs9G_navLabel{flex:1} — the label stretches across the row and its text
  * sat at the physical left, leaving the icon stranded alone on the right. */
-html[dir="rtl"] .wCInkW_navCell {
+html[dir="rtl"] .AnXs9G_navCell {
   text-align: right;
   padding: 9px 12px 9px 16px;
 }
@@ -425,45 +476,45 @@ html[dir="rtl"] ._switch_1ik0f_5[aria-checked=true] ._thumb_1ik0f_33 {
   transform: translate(-16px);
 }
 
-/* Shipped: .wCInkW_nav{width:188px} and
- *          .wCInkW_navLabel{white-space:nowrap;text-overflow:ellipsis;...}
+/* Shipped: .AnXs9G_nav{width:188px} and
+ *          .AnXs9G_navLabel{white-space:nowrap;text-overflow:ellipsis;...}
  * Arabic labels are systematically longer than their English sources, so the
  * fixed 188px sidebar clipped the last word of "إعدادات الوكيل المسبقة" into an
  * ellipsis. Let the label wrap and the row grow instead of widening the
  * sidebar, which would move the whole settings geometry. */
-html[dir="rtl"] .wCInkW_navCell {
+html[dir="rtl"] .AnXs9G_navCell {
   height: auto;
   min-height: 40px;
 }
 
-html[dir="rtl"] .wCInkW_navLabel {
+html[dir="rtl"] .AnXs9G_navLabel {
   white-space: normal;
   overflow: visible;
   text-overflow: clip;
 }
 
 /* --- Layer 11: جهة رسائل المستخدم -----------------------------------------
- * المشحون: .cJsG2q_userRow{flex-direction:column;align-items:flex-end;gap:6px}
- *          .cJsG2q_userStack{…;align-items:flex-end;…}
- * وعلى المنوال نفسه: .-ja1rG_row و.-ja1rG_stack (نسخة أخرى من فقاعة المستخدم).
+ * المشحون: .LOmM4q_userRow{flex-direction:column;align-items:flex-end;gap:6px}
+ *          .LOmM4q_userStack{…;align-items:flex-end;…}
+ * وعلى المنوال نفسه: .rhSLKq_row و.rhSLKq_stack (نسخة أخرى من فقاعة المستخدم).
  *
  * مع dir="rtl" صار flex-end يعني الحافة اليسرى، فانتقلت رسائل المستخدم إلى
  * اليسار. والقارئ العربي يتوقع رسالته على اليمين، فتُعاد بداية المحور العرضي. */
-html[dir="rtl"] .cJsG2q_userRow,
-html[dir="rtl"] .cJsG2q_userStack,
-html[dir="rtl"] .-ja1rG_row,
-html[dir="rtl"] .-ja1rG_stack {
+html[dir="rtl"] .LOmM4q_userRow,
+html[dir="rtl"] .LOmM4q_userStack,
+html[dir="rtl"] .rhSLKq_row,
+html[dir="rtl"] .rhSLKq_stack {
   align-items: flex-start;
 }
 
-/* المشحون: .v1fjQa_bubble{…;text-align:left;…} و.v1fjQa_toggle{…;text-align:left}
- * و.v1fjQa_options{padding-left:16px} — وهو صندوق سؤال/جواب داخل المحادثة. */
-html[dir="rtl"] .v1fjQa_bubble,
-html[dir="rtl"] .v1fjQa_toggle {
+/* المشحون: .BfLV8a_bubble{…;text-align:left;…} و.BfLV8a_toggle{…;text-align:left}
+ * و.BfLV8a_options{padding-left:16px} — وهو صندوق سؤال/جواب داخل المحادثة. */
+html[dir="rtl"] .BfLV8a_bubble,
+html[dir="rtl"] .BfLV8a_toggle {
   text-align: right;
 }
 
-html[dir="rtl"] .v1fjQa_options {
+html[dir="rtl"] .BfLV8a_options {
   padding-left: 0;
   padding-right: 16px;
 }
@@ -498,40 +549,40 @@ html[dir="rtl"] {
  * المخرجات ومراجعة الفروق)، وما زالت تحمل محاذاةً وإزاحات فيزيائية. وكل قاعدة
  * أدناه منقولة بنصّ القاعدة المشحونة التي تبرّرها:
  *
- *   .d99neW_marketButton{max-width:240px;margin-left:-8px;font-weight:500}
- *   .d99neW_cardOpen{…;text-align:left;…}                 ← عنوان بطاقة الإضافة
- *   .jmg6Sq_summary{…;gap:8px;margin-left:8px;…}          ← صفّ ملخّص التسليم
- *   .LFNH1G_tools{flex:none;…;margin-left:auto;…}         ← صفّ أدوات لوحة التغييرات
- *   .kuvljq_header{…;text-align:left;…}                   ← ترويسة لوحة التعديلات
- *   .kuvljq_toggle{…;text-align:left;…;padding:10px 18px 10px 14px;…}
+ *   .m2i3Fa_marketButton{max-width:240px;margin-left:-8px;font-weight:500}
+ *   .m2i3Fa_cardOpen{…;text-align:left;…}                 ← عنوان بطاقة الإضافة
+ *   .YcWBLa_summary{…;gap:8px;margin-left:8px;…}          ← صفّ ملخّص التسليم
+ *   .tQx-aa_tools{flex:none;…;margin-left:auto;…}         ← صفّ أدوات لوحة التغييرات
+ *   .HOHHba_header{…;text-align:left;…}                   ← ترويسة لوحة التعديلات
+ *   .HOHHba_toggle{…;text-align:left;…;padding:10px 18px 10px 14px;…}
  *
  * والموضعان المشحونان بـtext-align:left هنا (ترويسة التغييرات ومفتاحها) نصّهما
  * عربي، بخلاف معاينة البيانات الخام في مفتّش الجلسة وعمود أرقام الأسطر في عارض
  * الفروق: فهذان محتواهما شيفرةٌ وبيانات، فتُركت محاذاتهما كما شُحنت عن قصد. */
-html[dir="rtl"] .d99neW_marketButton {
+html[dir="rtl"] .m2i3Fa_marketButton {
   margin-left: 0;
   margin-right: -8px;
 }
 
-html[dir="rtl"] .d99neW_cardOpen {
+html[dir="rtl"] .m2i3Fa_cardOpen {
   text-align: right;
 }
 
-html[dir="rtl"] .jmg6Sq_summary {
+html[dir="rtl"] .YcWBLa_summary {
   margin-left: 0;
   margin-right: 8px;
 }
 
-html[dir="rtl"] .LFNH1G_tools {
+html[dir="rtl"] .tQx-aa_tools {
   margin-left: 0;
   margin-right: auto;
 }
 
-html[dir="rtl"] .kuvljq_header {
+html[dir="rtl"] .HOHHba_header {
   text-align: right;
 }
 
-html[dir="rtl"] .kuvljq_toggle {
+html[dir="rtl"] .HOHHba_toggle {
   text-align: right;
   padding: 10px 14px 10px 18px;
 }
