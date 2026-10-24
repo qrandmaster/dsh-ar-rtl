@@ -257,15 +257,46 @@ html[dir="rtl"] kbd {
 }
 
 /* --- Layer 7: markdown tables -------------------------------------------
- * The markdown renderer emits an inline `text-align` for a `:---` delimiter
+ * The markdown renderer emits an inline text-align for a :--- delimiter
  * column, and an inline style outranks a plain stylesheet rule — which is why
  * a table written with alignment markers stays left-aligned inside an RTL
- * transcript. `!important` is required for exactly that reason. */
+ * transcript. !important is required for exactly that reason.
+ *
+ * RTL last-column alignment only: under dir="rtl" the rightmost rendered
+ * column corresponds to the DOM :last-child of th/td. Only that column’s
+ * header and body cells are right-aligned so the header lines up with the
+ * cells beneath it (e.g. the last column of a 4-column table). Earlier
+ * columns keep their shipped alignment. This targets the last column only,
+ * not every cell in every table. */
 
-html[dir="rtl"] [data-conversation-region="chat"] :is(th, td),
-html[dir="rtl"] .md-table-wide :is(th, td),
-html[dir="rtl"] [data-conversation-region="chat"] table {
+html[dir="rtl"] [data-conversation-region="chat"] :is(th, td):first-child,
+html[dir="rtl"] .md-table-wide :is(th, td):first-child,
+html[dir="rtl"] [data-conversation-region="chat"] table :is(th, td):first-child,
+html[dir="rtl"] :is(table, [role="table"]) :is(th, td):first-child {
   text-align: right !important;
+}
+
+/* --- Layer 7ب: شفرات تحتوي نصاً عربياً (صور 2 و4) ---
+ * كتل الشفرات والنوافذ الطرفية التي تحتوي نصوصاً عربية يجب أن تحتفظ باتجاه RTL
+ * للنص العربي مع عزل المقاطع اللاتينية (المسارات) حتى لا تتقدم وتتأخر.
+ * ويُعرض السطر كاملاً دون اقتصاص. */
+
+html[dir="rtl"] [data-terminal],
+html[dir="rtl"] .md-code-block,
+html[dir="rtl"] [data-code-block-content] {
+  direction: rtl;
+  unicode-bidi: isolate;
+  text-align: right !important;
+  overflow-wrap: normal;
+  white-space: pre-wrap;
+}
+
+/* العزل للمقاطع اللاتينية داخل السطور العربية المختلطة */
+html[dir="rtl"] [data-terminal] :is(code, kbd, samp),
+html[dir="rtl"] .md-code-block :is(code, kbd, samp),
+html[dir="rtl"] [data-code-block-content] :is(code, kbd, samp) {
+  direction: ltr;
+  unicode-bidi: isolate;
 }
 
 /* --- Layer 8: remaining physical offsets from the CSS audit -------------- */
