@@ -7,6 +7,7 @@
  *   3. يبني الحزمة بـgit archive من الوسم نفسه.
  *   4. يأخذ التوكن من مدير بيانات الاعتماد (git credential fill) — لا ملفات توكن.
  *   5. ينشئ الإصدار عبر Node fetch بترميز UTF-8 سليم — لا PowerShell (سبب فساد العربية في 1.3.0).
+ *   6. عنوان فيه عربية يُلفّ بعزل U+2067…U+2069 ليُقرأ من اليمين في شريط العنوان اللاتيني.
  *
  * الاستعمال:
  *   node tools/create-release.mjs v1.4.0 [--name "وصف عربي"] [--draft]
@@ -52,7 +53,10 @@ if (start === -1) {
 const next = changelog.indexOf('\n## ', start + 1);
 const section = changelog.slice(start, next === -1 ? undefined : next).trim();
 const body = `<div dir="rtl">\n\n${section}\n\n</div>`;
-const name = nameArg ?? tag;
+const nameArg0 = nameArg ?? tag;
+// عنوان فيه عربية يُلفّ بعزل RTL (U+2067…U+2069) كي تُقرأ مقاطعه من اليمين داخل عنوان الصفحة اللاتيني
+// (عناوين GitHub بلا dir="auto" — تجربة 1.3.0: RLM وحده لا يكفي، والعزل يُقرأ صحيحاً).
+const name = /[\u0590-\u08FF]/.test(nameArg0) ? "\u2067" + nameArg0 + "\u2069" : nameArg0;
 
 // 3) الحزمة من الوسم
 const zipPath = join(root, '..', `dsh-ar-rtl-${tag}.zip`);
