@@ -154,6 +154,9 @@ node "$repo\tools\validate-ar.mjs"
 # بصمات الأصناف
 node "$repo\tools\refresh-selectors.mjs" --asar $asar --dry-run   # ثم بلا --dry-run
 
+# إصدار GitHub (الأداة الدائمة): غلاف RTL + ترميز سليم + رفع الحزمة
+node "$repo\tools\create-release.mjs" vX.Y.Z --name "وصف عربي اختياري"
+
 # نشر محلي
 Copy-Item "$repo\client.js" "C:\Users\grandmaster\.dsh\profiles\desktop\plugins\dsh-ar-rtl\client.js" -Force
 Copy-Item "$repo\src\rtl.css" "C:\Users\grandmaster\.dsh\profiles\desktop\plugins\dsh-ar-rtl\src\rtl.css" -Force
