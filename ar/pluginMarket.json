@@ -47,6 +47,8 @@
   "install": "تثبيت",
   "installTitle": "تثبيت ⁨{name}⁩",
   "installVersionTitle": "تثبيت ⁨{name}⁩ ⁨{version}⁩",
+  "update": "تحديث",
+  "updateTitle": "تحديث ⁨{name}⁩ إلى ⁨{version}⁩",
   "openInstalled": "اعرض ⁨{name}⁩ في «المثبَّتة»",
   "statusInstalled": "مثبَّتة",
   "statusUpdate": "تحديث متاح",
@@ -76,5 +78,14 @@
   "versionExempted": "مستثنى",
   "versionPrerelease": "ما قبل الإصدار",
   "confirmTitle": "تثبيت «⁨{name}⁩»؟",
-  "installTrust": "الإضافات تعمل على هذه الآلة بصلاحياتك. تأكد من ثقتك بمصدرها."
+  "installTrust": "الإضافات تعمل على هذه الآلة بصلاحياتك. تأكد من ثقتك بمصدرها.",
+  "detailTitle": "التفاصيل",
+  "detailLoading": "قراءة التفاصيل",
+  "detailTooLarge": "تجاوزت التفاصيل أو مستودعها حد الحجم ولم تُحمَّل.",
+  "detailNetwork": "تعذّر الوصول إلى مصدر التفاصيل.",
+  "detailDenied": "تعذّر الوصول إلى مستودع التفاصيل. تحقّق من بيانات اعتماد Git.",
+  "detailGitUnavailable": "التفاصيل في مستودع يجب قراءته بـ Git، وتعذّر تشغيل Git. ثبّت Git ثم أعد المحاولة.",
+  "detailInvalid": "تُعلن الإضافة ملف تفاصيل غير صالح.",
+  "detailFailed": "تعذّرت قراءة التفاصيل.",
+  "footnotes": "الحواشي"
 }

@@ -12,18 +12,19 @@
 | D | المشكلة 3: جدول «توطين ← DSH ← إلى» | لم تُبدأ |
 | E | المشكلة 4: سطر RTL «فورمات ← … ← إعادة تثبيت DSH» | ✅ منجز — تحقّق قياسي على 3 سياقات |
 | F | الإصدار والوسم بعد اكتمال B–E | ✅ مُنجز — v1.3.0 منشور |
+| G | دعم بناء التطبيق 0.2.2 (rc.1–rc.3): قواميس ونطاقات جديدة + قوائم المرساة + تحميل الإضافة | ✅ منجز — 76 نطاقاً و4088 مفتاحاً |
 
 **قاعدة المراحل**: لا ننتقل من مرحلة إلى التي بعدها إلا بعد تأكيد المستخدم باللقطة؛ ولا يُلتزم شيء في git ولا يُوسم ولا يُنشر إلا بأمر صريح.
 
 ## 1) الهوية والمسارات
 
 - المشروع: إضافة توطين عربي واتجاه RTL لواجهة DSH Web GUI.
-- المستودع: `D:\Workplace\Projects\DeepSeek Harness\توطين DSH\dsh-ar-rtl`
-- المساحة: `D:\Workplace\Projects\DeepSeek Harness\توطين DSH`
+- المستودع: `D:\Workplace\Projects\مشاريع ذكاء اصطناعي\DeepSeek Harness\توطين DSH\dsh-ar-rtl`
+- المساحة: `D:\Workplace\Projects\مشاريع ذكاء اصطناعي\DeepSeek Harness\توطين DSH`
 - **المجلد الذي يقرأه التطبيق فعلاً**: `C:\Users\grandmaster\.dsh\profiles\desktop\plugins\dsh-ar-rtl`
-- بناء التطبيق الحالي: **0.2.1-rc.3** — `C:\Users\grandmaster\AppData\Local\Programs\DeepSeek Harness\resources\app.asar`
-- الإصدار: **1.3.0** — الوسم `v1.3.0` فوق `43ad951` (دعم rc.3 + إصلاحات المشاكل الأربع) — الوسوم حتى الآن: v1.0.0, v1.0.2, v1.0.3, v1.0.4, v1.0.5, v1.1.0, v1.2.0, v1.3.0
-- حالة git: نظيفة — كل شيء ملتزم وموسوم ومنشور
+- بناء التطبيق الحالي: **0.2.2-rc.3** — `C:\Users\grandmaster\AppData\Local\Programs\DeepSeek Harness\resources\app.asar`
+- الإصدار: **1.4.0** (غير موسوم بعد) — آخر وسم منشور `v1.3.0` — الوسوم حتى الآن: v1.0.0, v1.0.2, v1.0.3, v1.0.4, v1.0.5, v1.1.0, v1.2.0, v1.3.0
+- حالة git: تُحدَّث في التزام 1.4.0 — الدعم حتى بناء 0.2.2-rc.3
 
 ### ملاحظة عن تاريخ الالتزامات
 - `43ad951` = دعم rc.3 + إصلاحات المشاكل الأربع، التُزم ونُشر في الجلسة السابقة.
@@ -42,8 +43,8 @@
 
 | المسار | الوظيفة |
 |---|---|
-| `ar/*.json` | 65 قاموساً عربياً (2962 مفتاحاً) |
-| `src/rtl.css` | ورقة الاتجاه (19051 بايت)، 13 طبقة + 7ب |
+| `ar/*.json` | 76 قاموساً عربياً (4088 مفتاحاً) |
+| `src/rtl.css` | ورقة الاتجاه (~29KB)، 16 طبقة (آخرها 15 و15ب و16) |
 | `src/effort-ar.js` | تعريب أسماء جهد الاستدلال |
 | `tools/build-client.mjs` | يبني `client.js` من الورقة والقواميس (يطبع بصمة CSS) |
 | `tools/extract-current-en.mjs` | جرد القواميس الإنجليزية من app.asar (`--asar` صراحة، `--write` لتحديث inventory) |
@@ -61,6 +62,16 @@
 4. **أُعيد بناء `client.js`** ونُسخ إلى مجلد الإضافة مع نسخة احتياطية `client.js.bak-*`.
 5. الحالة المطابقة الآن: نسخة المستودع = 249323 بايت (5fcf21061ce7975f)، نسخة التطبيق = 249323 بايت (5fcf21061ce7975f) — بعد إصلاح المشكلة 2.
 6. بصمة الورقة الاتجاهية الجديدة: a956c96a (كانت 3734b3e8) — تُقرأ من تشخيص الإضافة `__DSH_AR_RTL__.cssRevision`.
+
+## 4ب) دعم بناء 0.2.2 (الجلسة الحالية)
+
+1. **الجرد**: 76 نطاقاً و4088 مفتاحاً (كان 65 و2962). نطاقات جديدة: `forgePanel` و`liveshare` و`stats` و`cuaPermissions` و`deepseekChatImport` و`account.notifications` و`actionCards` و`fileActions` و`fileDrag` و`messageQuotes` و`pluginRecommendations` و`creationRecommendations` و`contextMenu` و`permission.access`. وتُرجم 460 مفتاحاً في النطاقات القائمة.
+2. **أداة الجرد** صارت تدعم: المائل للمعرّفات (`const NS=\`chat\``)، وقاموساً متغيّراً في `locale.register(ns, dictionaries)`، وتداخل `\${…}` في `scanBalanced`. وهذه الثلاث كانت تُسقط نطاقات كاملة بصمت.
+3. **القوائم المنبثقة** (الطبقة 15): تُموضَع بـ CSS Anchor Positioning بقيم فيزيائية، فتُرآها في RTL على حافة الشاشة بدل زرّها. المرآة: `left:auto; right:max(12px, anchor(right))` مع قلب `justify-self`. مقيسة: 259–526px انزياح قبل، وصفر بعده.
+4. **عنصر القائمة** (الطبقة 16): الأيقونة تبقى في اليمين، والنص يبدأ منها مباشرة، والاختصار وعلامة الاختيار يلتصقان بنهايته. مقيسة: 155px → 13px.
+5. **محددات محصّنة**: صيغة `[class*="أصل_"]` بدل الاعتماد على رقم السطر في اسم الصنف (سبعة محدّدات كانت ميتة).
+6. **التحميل**: 0.2.2 لم يعد يمسح `plugins/`؛ الإضافة تُحمَّل بإدخال Loader عبر `cordis.patch.yml` المسجّل في طبقة الملف الشخصي.
+7. **الأداة**: 35 مكوّناً متتبَّعاً، وتفهم صيغة `_suffix_hash_line`.
 
 ## 5) المشاكل الأربع (من لقطات المستخدم)
 
@@ -139,7 +150,7 @@
 ## 7) أوامر جاهزة (PowerShell)
 
 ```powershell
-$repo = "D:\Workplace\Projects\DeepSeek Harness\توطين DSH\dsh-ar-rtl"
+$repo = "D:\Workplace\Projects\مشاريع ذكاء اصطناعي\DeepSeek Harness\توطين DSH\dsh-ar-rtl"
 $asar = "C:\Users\grandmaster\AppData\Local\Programs\DeepSeek Harness\resources\app.asar"
 
 # بناء

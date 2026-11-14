@@ -1,4 +1,7 @@
 {
+  "menu.close": "إغلاق",
+  "menu.closeOthers": "إغلاق التبويبات الأخرى",
+  "menu.closeRight": "إغلاق التبويبات إلى اليمين",
   "command.close": "إغلاق الصفحة أو النافذة الحالية",
   "command.refresh": "تحديث الصفحة الحالية",
   "command.noRefresh": "لا يمكن تحديث هذه الصفحة",

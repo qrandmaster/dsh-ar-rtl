@@ -3,5 +3,7 @@
   "detail.aria": "تفاصيل الموافقة",
   "escalation": "الأداة ⁨{toolName}⁩ تطلب تنفيذًا بصلاحيات مرتفعة",
   "reject": "رفض",
-  "allowOnce": "السماح مرة واحدة"
+  "allow": "سماح",
+  "allowOnce": "السماح مرة واحدة",
+  "allowAlways": "سماح دائماً"
 }

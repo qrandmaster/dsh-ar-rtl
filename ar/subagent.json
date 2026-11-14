@@ -1,4 +1,10 @@
 {
+  "section.title": "الوكلاء الفرعيون",
+  "section.empty": "لا وكلاء فرعيون",
+  "progress.completed": "⁨{count}⁩ منجز",
+  "progress.active": "⁨{count}⁩ قيد التنفيذ",
+  "progress.inactive": "⁨{count}⁩ لا يعمل",
+  "progress.external": "⁨{count}⁩ خارجي",
   "duration.seconds": "{seconds} ث",
   "duration.minutes": "{minutes} د {seconds} ث",
   "duration.hours": "{hours} س {minutes} د {seconds} ث",
@@ -14,8 +20,8 @@
   "tokens.million": "⁨{value}⁩ مليون",
   "tokens.total": "⁨{value}⁩ رمز",
   "loading.label": "جارٍ تحميل الوكلاء الفرعيين…",
+  "load.idle": "لم تُحمّل الوكلاء الفرعيون",
   "load.error": "تعذّر تحميل الوكلاء الفرعيين",
-  "catalog.migrationRequired": "الترحيل مطلوب",
   "retry": "إعادة المحاولة",
   "mode.external": "مهمة خارجية",
   "mode.oneShot": "لمرة واحدة",
@@ -34,10 +40,10 @@
   "switcher.aria": "تبديل الوكيل الفرعي: ⁨{title}⁩",
   "tree.aria": "جلسات الوكلاء الفرعيين",
   "open.sidebar": "فتح في الشريط الجانبي",
+  "open.floatWindow": "فتح في لوحة عائمة",
   "open.sidebar.aria": "فتح ⁨{label}⁩ في الشريط الجانبي",
   "sidebar.chat": "محادثة",
   "readonly.oneShot.title": "سجل وكيل فرعي لمرة واحدة",
   "readonly.title": "هذا الوكيل الفرعي للقراءة فقط في الوقت الحالي",
-  "readonly.oneShot.body": "المهام التي تُنفَّذ لمرة واحدة لا تقبل المتابعة؛ راجع سجل التنفيذ الكامل هنا.",
-  "readonly.body": "الجلسة الأصلية غير متصلة؛ أعد فتحها لمتابعة إرسال الرسائل."
+  "readonly.oneShot.body": "المهام التي تُنفَّذ لمرة واحدة لا تقبل المتابعة؛ راجع سجل التنفيذ الكامل هنا."
 }

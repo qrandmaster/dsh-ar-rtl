@@ -63,27 +63,32 @@ const TEXT = readFileSync(asarPath, 'utf8');
 
 /* ------------------------------------------------------------------ lexing -- */
 function scanBalanced(text, startIdx, openCh, closeCh) {
+  // State stack: 'q:<char>' inside a string, 'i:<depth>' inside a ${ } interpolation
+  // of a template literal. Handles nested backticks inside interpolations, which
+  // shipped dictionaries use for conditional plural strings.
+  const st = [];
   let depth = 0;
-  let inStr = null;
-  let esc = false;
-  let inLine = false;
-  let inBlock = false;
   for (let i = startIdx; i < text.length; i++) {
     const c = text[i];
     const n = text[i + 1];
-    if (inLine) { if (c === '\n') inLine = false; continue; }
-    if (inBlock) { if (c === '*' && n === '/') { inBlock = false; i++; } continue; }
-    if (esc) { esc = false; continue; }
-    if (inStr) {
-      if (c === '\\') { esc = true; continue; }
-      if (c === inStr) inStr = null;
+    const top = st[st.length - 1];
+    if (top !== void 0 && top.startsWith('q:')) {
+      const q = top.slice(2);
+      if (c === '\\') { i++; continue; }
+      if (q === '`' && c === '$' && n === '{') { st.push('i:' + depth); i++; continue; }
+      if (c === q) st.pop();
       continue;
     }
-    if (c === '/' && n === '/') { inLine = true; continue; }
-    if (c === '/' && n === '*') { inBlock = true; i++; continue; }
-    if (c === '"' || c === "'" || c === '\u0060') { inStr = c; continue; }
-    if (c === openCh) depth++;
-    else if (c === closeCh) { depth--; if (depth === 0) return i; }
+    if (c === '/' && n === '/') { while (i < text.length && text[i] !== '\n') i++; continue; }
+    if (c === '/' && n === '*') { i += 2; while (i < text.length && !(text[i] === '*' && text[i + 1] === '/')) i++; continue; }
+    if (c === '"' || c === "'" || c === '`') { st.push('q:' + c); continue; }
+    if (c === openCh) { depth++; continue; }
+    if (c === closeCh) {
+      if (top !== void 0 && top.startsWith('i:') && Number(top.slice(2)) === depth) { st.pop(); continue; }
+      depth--;
+      if (depth === 0) return i;
+      continue;
+    }
   }
   return -1;
 }
@@ -176,15 +181,21 @@ function findNearestConst(name, beforePos, kind) {
       const end = scanBalanced(TEXT, v, '{', '}');
       if (end > 0) best = { kind: 'object', body: TEXT.slice(v, end + 1), pos: v };
     } else if (kind === 'string') {
-      if (c !== '"' && c !== "'") continue;
+      if (c !== '"' && c !== "'" && c !== '\u0060') continue;
       const lit = readStringLit(TEXT, v);
-      if (lit) { try { best = { kind: 'string', value: JSON.parse(lit), pos: v }; } catch { /* not a plain literal */ } }
+      if (lit) {
+        if (c === '\u0060') best = { kind: 'string', value: lit.slice(1, -1).replace(/\\`/g, '`').replace(/\\\\/g, '\\'), pos: v };
+        else { try { best = { kind: 'string', value: JSON.parse(lit), pos: v }; } catch { /* not a plain literal */ } }
+      }
     } else if (c === '{') {
       const end = scanBalanced(TEXT, v, '{', '}');
       if (end > 0) best = { kind: 'object', body: TEXT.slice(v, end + 1), pos: v };
-    } else if (c === '"' || c === "'") {
+    } else if (c === '"' || c === "'" || c === '\u0060') {
       const lit = readStringLit(TEXT, v);
-      if (lit) { try { best = { kind: 'string', value: JSON.parse(lit), pos: v }; } catch { /* not a plain literal */ } }
+      if (lit) {
+        if (c === '\u0060') best = { kind: 'string', value: lit.slice(1, -1).replace(/\\`/g, '`').replace(/\\\\/g, '\\'), pos: v };
+        else { try { best = { kind: 'string', value: JSON.parse(lit), pos: v }; } catch { /* not a plain literal */ } }
+      }
     }
   }
   return best;
@@ -203,7 +214,7 @@ function evalObject(objSrc, anchor) {
     const def = findNearestConst(id, anchor, null);
     if (!def) continue;
     defs.push({ name: id, body: def.kind === 'object' ? def.body : JSON.stringify(def.value) });
-    for (const dep of freeIds(def.body)) if (!done.has(dep)) queue.push(dep);
+    for (const dep of freeIds(def.body ?? '')) if (!done.has(dep)) queue.push(dep);
   }
   const code = defs.map((d) => 'const ' + d.name + ' = ' + d.body + ';').join('\n') + '\nreturn (' + objSrc + ');';
   return JSON.parse(JSON.stringify(new Function(code)()));
@@ -251,7 +262,7 @@ function splitArgs(src) {
 
 function processCall(callAbs, argsSrc) {
   const parts = splitArgs(argsSrc).map((s) => s.trim());
-  const litOf = (t) => (t[0] === '"' || t[0] === "'") ? t.slice(1, t.lastIndexOf(t[0])) : null;
+  const litOf = (t) => (t[0] === '"' || t[0] === "'" || t[0] === '\u0060') ? t.slice(1, t.lastIndexOf(t[0])) : null;
   const nsDef = litOf(parts[0]) !== null ? null : findNearestConst(parts[0], callAbs, 'string');
   const ns = litOf(parts[0]) ?? (nsDef ? nsDef.value : null);
   if (!ns || ns === 'ns') return;
@@ -292,6 +303,26 @@ function processCall(callAbs, argsSrc) {
       const end = scanBalanced(objSrc, start, '{', '}');
       enSrc = objSrc.slice(start, end + 1);
     }
+  } else if (parts.length === 2) {
+    /* Shipped form since 0.2.2: locale.register(NS, dictionaries) where the
+     * second argument is a CONSTANT object holding zh/en/ja/... entries. */
+    const def = findNearestConst(parts[1], callAbs, 'object');
+    if (!def) { failures.push('dictionary constant ' + parts[1] + ' not found for ' + ns); return; }
+    const objSrc = def.body;
+    const named = objSrc.match(/[{,]\s*en\s*:\s*([A-Za-z_$][\w$]*)/);
+    if (named) {
+      const inner = findNearestConst(named[1], def.pos, 'object');
+      if (inner) { enSrc = inner.body; enPos = inner.pos; }
+    }
+    if (!enSrc) {
+      const inline = objSrc.match(/[{,]\s*en\s*:\s*\{/);
+      if (inline) {
+        const start = objSrc.indexOf('{', inline.index + inline[0].length - 1);
+        const end = scanBalanced(objSrc, start, '{', '}');
+        if (end > 0) { enSrc = objSrc.slice(start, end + 1); enPos = def.pos + start; }
+      }
+    }
+    if (!enSrc) { failures.push('no English entry in the dictionary for ' + ns); return; }
   } else {
     return;
   }

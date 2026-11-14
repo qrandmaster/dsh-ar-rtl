@@ -1,0 +1,6 @@
+# dsh-ar-rtl: client-only plugin (Arabic language, RTL stylesheet).
+# Declared as a DSH bundle so 0.2.2+ mounts the Loader entry that dsh-client-modules
+# scans for packages declaring dsh.client.
+- insert:
+    - id: dsh-ar-rtl
+      name: "@local/dsh-ar-rtl"

@@ -1,7 +1,11 @@
 {
-  "header.more": "إجراءات أخرى",
+  "menu.copyMarkdown": "نسخ الجلسة بصيغة ⁨Markdown⁩",
   "menu.download": "تنزيل سجل الجلسة",
   "menu.feedback": "ملاحظات",
+  "toast.copied": "نُسخت الجلسة بصيغة ⁨Markdown⁩.",
+  "toast.preparationFailed": "تعذّرت قراءة الجلسة للنسخ. أعد المحاولة.",
+  "toast.clipboardFailed": "تعذّرت الكتابة إلى الحافظة. تحقّق من صلاحية الحافظة وأعد المحاولة.",
+  "dialog.session": "الجلسة: ⁨{sessionId}⁩",
   "dialog.preparingTitle": "جارٍ تصدير الجلسة",
   "dialog.preparingDescription": "جارٍ تحضير ملف ZIP يضم هذه الجلسة وجلساتها الفرعية ومرفقاتها.",
   "dialog.successTitle": "بدأ تنزيل الجلسة",

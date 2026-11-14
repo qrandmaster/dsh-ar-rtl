@@ -1,0 +1,14 @@
+{
+  "menu.finder": "إظهار في Finder",
+  "menu.reveal": "إظهار في المجلد",
+  "menu.saveAs": "حفظ باسم…",
+  "menu.copied": "نُسخ",
+  "menu.copyImage": "نسخ الصورة",
+  "menu.download": "تنزيل",
+  "menu.saveFailed": "تعذّر الحفظ. تحقّق من المصدر والوجهة ثم أعد المحاولة.",
+  "menu.copyFailed": "تعذّر النسخ. تأكد من توفّر المحتوى ثم أعد المحاولة.",
+  "menu.saved": "تم الحفظ",
+  "menu.downloadStarted": "بدأ التنزيل",
+  "menu.downloaded": "اكتمل التنزيل",
+  "path.revealError": "تعذّر إظهار موقع الملف. أعد المحاولة."
+}

@@ -231,7 +231,7 @@ html[dir="rtl"] ._9r0rkG_option {
  * the writing direction. Each selector names the exact shipped rule it
  * mirrors. */
 
-html[dir="rtl"] ._item_4ub78_90,
+html[dir="rtl"] [class*="_item_70kcw_"],
 html[dir="rtl"] .V7pFBG_cardOpen,
 html[dir="rtl"] .Wsg8iW_cardMain,
 html[dir="rtl"] .wtg9ga_panelRow {
@@ -240,14 +240,14 @@ html[dir="rtl"] .wtg9ga_panelRow {
 
 /* Menu items keep the label hard against the icon; without a shortcut row the
  * shipped `text-align: left` pushed it to the far side. */
-html[dir="rtl"] ._itemLabel_4ub78_190 {
+html[dir="rtl"] [class*="_itemLabel_70kcw_"] {
   text-align: right;
 }
 
 /* Keyboard shortcuts are Latin runs inside an RTL line: a trailing comma or
  * plus is neutral and jumps to the wrong end without isolation, so `Ctrl + ,`
  * must be fenced as one LTR unit. */
-html[dir="rtl"] ._shortcut_4ub78_198,
+html[dir="rtl"] [class*="_shortcut_70kcw_"],
 html[dir="rtl"] .wtg9ga_newSessionShortcut,
 html[dir="rtl"] kbd {
   direction: ltr;
@@ -433,13 +433,13 @@ html[dir="rtl"] .Wsg8iW_brokenTip {
  *   St8tea_settingText keyboard-shortcuts row
  *   _0Fr0Ha_rowText    numeric stepper row (for example font size) */
 
-html[dir="rtl"] :is(.-TO4SG_rowText, .CDP_Dq_rowText, .St8tea_settingText, .V68kMG_rowText, ._1jfq5W_rowText, ._7qxJPq_rowText) {
+html[dir="rtl"] :is(.-TO4SG_rowText, .CDP_Dq_rowText, .St8tea_settingText, .V68kMG_rowText, ._1jfq5W_rowText, ._7qxJPq_rowText, .vXE6rG_rowText) {
   padding-right: 0;
   padding-left: 48px;
 }
 
 /* The stepper's up/down arrows are pinned to the physical right. */
-html[dir="rtl"] ._0Fr0Ha_arrows {
+html[dir="rtl"] ._7qxJPq_arrows {
   right: auto;
   left: 8px;
 }
@@ -507,16 +507,30 @@ html[dir="rtl"] .rhSLKq_stack {
   align-items: flex-start;
 }
 
-/* المشحون: .BfLV8a_bubble{…;text-align:left;…} و.BfLV8a_toggle{…;text-align:left}
- * و.BfLV8a_options{padding-left:16px} — وهو صندوق سؤال/جواب داخل المحادثة. */
-html[dir="rtl"] .BfLV8a_bubble,
-html[dir="rtl"] .BfLV8a_toggle {
-  text-align: right;
+/* 0.2.2-rc.1: صندوق السؤال القديم (BfLV8a_*) أُزيل من البناء، وحلّت محله
+ * بطاقة AskQuestionCard (ZG377q) في سجل الأدوات، وحزمة user-questions:
+ *   ZG377q_questionList  padding-left:20px
+ *   ZG377q_card          margin:4px 0 4px 4px
+ *   wnLwla_option        text-align:left; padding:8px 12px 8px 8px
+ *   Nksazq_previewActions margin-left:auto
+ * كلها فيزيائية، فتُعكس هنا بدل مراجع الأصناف الميتة. */
+html[dir="rtl"] .ZG377q_questionList {
+  padding-left: 0;
+  padding-right: 20px;
 }
 
-html[dir="rtl"] .BfLV8a_options {
-  padding-left: 0;
-  padding-right: 16px;
+html[dir="rtl"] .ZG377q_card {
+  margin: 4px 4px 4px 0;
+}
+
+html[dir="rtl"] .wnLwla_option {
+  text-align: right;
+  padding: 8px 8px 8px 12px;
+}
+
+html[dir="rtl"] .Nksazq_previewActions {
+  margin-left: 0;
+  margin-right: auto;
 }
 
 /* --- Layer 12: شريط عنوان تطبيق سطح المكتب --------------------------------
@@ -585,4 +599,219 @@ html[dir="rtl"] .HOHHba_header {
 html[dir="rtl"] .HOHHba_toggle {
   text-align: right;
   padding: 10px 14px 10px 18px;
+}
+
+/* --- Layer 14: مكوّناتٌ أضافها البناء 0.2.2 -------------------------------
+ * أربع عائلات جديدة كلياً في 0.2.2-rc.1 (هاشات بلا خطّافات ثابتة، وتحدّثها
+ * أداة refresh-selectors عبر بصماتها)، ومرايا ناقصة في وحدة الماركداون نفسها:
+ *
+ *   ._block_15hvo_1{…;padding-left:var(--dsl-terminal-gutter)}        ← كتلة طرفية
+ *   ._header_15hvo_32{…;margin-left:calc(-1*gutter);padding:9px 14px 9px var(--gutter)}
+ *   ._runState_15hvo_91{position:absolute;left:calc(-1*gutter + 8px)}
+ *   ._output_15hvo_152{…;padding:12px 14px 12px 0}
+ *   ._empty_15hvo_203{padding:12px 14px 12px 0}   ._expand_15hvo_185{text-align:left}
+ *   ._body_74wpx_43{padding:8px 14px 12px 0}      ← نتائج البحث
+ *   ._line_74wpx_52{…;padding-left:14px}          ._fileHeader_74wpx_66{text-align:left}
+ *   ._expand_74wpx_92{text-align:left}
+ *   ._del_1cyuy_38/._add_1cyuy_48{box-shadow:inset 3px 0 0 …}  ← شريط الفرق على اليسار
+ *   ._expand_1cyuy_66{text-align:left}
+ *   ._gutter_cf6qc_7{…;margin-right:12px}         ← أرقام أسطر القراءة
+ *   ._expand_cf6qc_29{padding:0 0 0 calc(var(--dsl-read-gutter) + 12px);text-align:left}
+ *   [class*="_source_d98g2_"]{text-align:left}            ← رقاقة الاقتباس
+ *   [class*="_menuItem_123xe_"]{text-align:left}         ← قائمة dockkit
+ *   ._label_16cyo_82/._dots_16cyo_86{text-align:left} ← مؤشر الحالة والنقاط
+ *   ._markdown_rve47_5 blockquote{border-left:2px;padding-left:14px}
+ *   ._markdown_rve47_5 input[type=checkbox]{margin:0 8px 0 0}
+ *
+ * سطور الطرفية (الأمر والمخرجات) تعامل معاملة كتلة الشيفرة (الطبقة 3ب):
+ * كل سطر يأخذ اتجاهه من أول حرف قويّ فيه ويُحاذى يميناً. */
+
+html[dir="rtl"] ._block_15hvo_1 {
+  padding-left: 0;
+  padding-right: var(--dsl-terminal-gutter);
+}
+
+html[dir="rtl"] ._header_15hvo_32 {
+  margin-left: 0;
+  margin-right: calc(-1 * var(--dsl-terminal-gutter));
+  padding: 9px var(--dsl-terminal-gutter) 9px 14px;
+}
+
+html[dir="rtl"] ._runState_15hvo_91 {
+  left: auto;
+  right: calc(-1 * var(--dsl-terminal-gutter) + 8px);
+}
+
+html[dir="rtl"] ._output_15hvo_152,
+html[dir="rtl"] ._empty_15hvo_203 {
+  padding: 12px 0 12px 14px;
+}
+
+html[dir="rtl"] ._command_15hvo_115,
+html[dir="rtl"] ._line_15hvo_179,
+html[dir="rtl"] ._output_15hvo_152 {
+  unicode-bidi: plaintext;
+  text-align: right;
+}
+
+html[dir="rtl"] ._expand_15hvo_185,
+html[dir="rtl"] ._fileHeader_74wpx_66,
+html[dir="rtl"] ._expand_74wpx_92,
+html[dir="rtl"] ._expand_1cyuy_66,
+html[dir="rtl"] ._expand_cf6qc_29,
+html[dir="rtl"] [class*="_source_d98g2_"],
+html[dir="rtl"] [class*="_menuItem_123xe_"],
+html[dir="rtl"] ._label_16cyo_82,
+html[dir="rtl"] ._dots_16cyo_86 {
+  text-align: right;
+}
+
+html[dir="rtl"] ._body_74wpx_43 {
+  padding: 8px 0 12px 14px;
+}
+
+html[dir="rtl"] ._line_74wpx_52 {
+  padding-left: 0;
+  padding-right: 14px;
+}
+
+html[dir="rtl"] ._del_1cyuy_38 {
+  box-shadow: inset -3px 0 0 var(--dsw-alias-state-error-primary);
+}
+
+html[dir="rtl"] ._add_1cyuy_48 {
+  box-shadow: inset -3px 0 0 var(--dsw-alias-state-success-primary);
+}
+
+html[dir="rtl"] ._gutter_cf6qc_7 {
+  margin-right: 0;
+  margin-left: 12px;
+}
+
+html[dir="rtl"] ._expand_cf6qc_29 {
+  padding: 0 calc(var(--dsl-read-gutter) + 12px) 0 0;
+}
+
+html[dir="rtl"] [class*="_markdown_"] blockquote {
+  border-left: 0;
+  border-right: 2px solid var(--dsw-alias-label-caption);
+  padding-left: 0;
+  padding-right: 14px;
+}
+
+html[dir="rtl"] [class*="_markdown_"] input[type="checkbox"] {
+  margin: 0 0 0 8px;
+}
+
+/* --- Layer 15: القوائم المنبثقة المتموضعة بالمرساة -----------------------
+ * القوائم في 0.2.2 تُموضَع بـ CSS Anchor Positioning بقيم **فيزيائية**:
+ *
+ *   ._portal_70kcw_43{
+ *     position:fixed; position-area:none;
+ *     top:max(12px,calc(anchor(bottom)+4px)); bottom:12px;
+ *     left:max(12px,anchor(left)); right:12px; justify-self:start; ...}
+ *   ._portal_70kcw_43[data-anchor-align=end]:not([data-anchor-side=right]){
+ *     left:12px; right:max(12px,anchor(right)); justify-self:end}
+ *   ._9r0rkG_menu{position-anchor:var(--dsh-model-anchor);
+ *     left:12px; right:anchor(right); width:fit-content; ...}
+ *
+ * والقاعدة التي تحدد left وright مع width غير auto «مقيّدة زيادة» فيتجاهل
+ * المتصفح أحد الطرفين حسب direction: في LTR يتجاهل right فتلتصق القائمة
+ * بحافة الزر اليسرى (صحيح)، وفي RTL يتجاهل left أو right الثابتة فتلتصق
+ * بحافة الشاشة بدل الزر.
+ *
+ * القياس (Chrome 157، position-anchor مضبوطة، 1200px):
+ *   قائمة عامة LTR:  زر 400..477  → قائمة 400..529   (محاذاة بداية ✓)
+ *   قائمة عامة RTL:  زر 701..778  → قائمة 1037..1166 (بعيدة 259px ✗)
+ *   بعد المرآة RTL:  زر 701..778  → قائمة 694..778   (محاذاة نهاية ✓، داخل الشاشة)
+ *   قائمة النموذج LTR: زر 400..571 → 331..571 (محاذاة نهاية ✓)
+ *   قائمة النموذج RTL: زر 607..778 → 12..252  (بعيدة 526px ✗)
+ *   بعد المرآة RTL:    607..778    → 538..778 (محاذاة نهاية ✓)
+ *
+ * فالمرآة: تُلغى left وتُثبَّت الحافة اليمنى للقائمة على حافة الزر اليمنى
+ * (بحدّ أدنى 12px لإبقائها داخل النافذة)، وتُقلب محاذاة النهاية. */
+
+html[dir="rtl"] ._portal_70kcw_43 {
+  left: auto;
+  right: max(12px, anchor(right));
+  justify-self: end;
+}
+
+html[dir="rtl"] ._portal_70kcw_43[data-anchor-align=end]:not([data-anchor-side=right]) {
+  left: auto;
+  right: max(12px, anchor(right));
+  justify-self: end;
+}
+
+html[dir="rtl"] ._9r0rkG_menu {
+  left: auto;
+  right: anchor(right);
+}
+
+/* --- Layer 15ب: قوائم أخرى بنفس النمط الفيزيائي --------------------------
+ * كل قاعدة أدناه تأخذ شكل:
+ *   { left:max(Npx, anchor(left)); right:Npx; place-self:start }        (النمط A)
+ *   { left:Npx; right:max(Npx, anchor(right)); justify-self:end }       (النمط B)
+ * وفي RTL يتجاهل المتصفح left أو right الثابتة فتخرج القائمة عن زرّها.
+ * المرآة: تُلغى left، وتُثبَّت الحافة اليمنى على حافة الزر، ويُقلب justify-self.
+ * (لم نستخدم place-self كي لا يتغيّر align-self الرأسي الذي تحكمه
+ *  position-try-fallbacks.) */
+
+html[dir="rtl"] .Luqt-a_menu {
+  left: auto;
+  right: max(16px, anchor(right));
+  justify-self: end;
+}
+
+html[dir="rtl"] .Z17U9a_panel,
+html[dir="rtl"] .js5r2G_portal,
+html[dir="rtl"] .Zf6DNq_warningPopover,
+html[dir="rtl"] .-vOKNW_typeFilterPanel {
+  left: auto;
+  right: max(12px, anchor(right));
+  justify-self: end;
+}
+
+html[dir="rtl"] .js5r2G_alignEnd {
+  left: auto;
+  right: max(12px, anchor(right));
+}
+
+/* --- Layer 16: ترتيب عنصر القائمة ---------------------------------------
+ * القرار: الأيقونة في موضعها المشحون (بداية السطر = اليمين في RTL)، والنص
+ * يبدأ منها مباشرة مارّاً إلى اليسار، والاختصار وعلامة الاختيار يلتصقان
+ * بنهاية النص بلا فراغ طويل.
+ *
+ * ثلاث ملاحظات مقيسة (280px، Chrome 157، قواعد التطبيق منقولة حرفياً):
+ *
+ * 1) المشحون يضع text-align:left على العنصر، فيلتصق النص بالطرف المقابل
+ *    ويبقى فراغ بينه وبين الأيقونة:  نص 501..535 مقابل أيقونة 733.
+ *    وبمحاذاة النص إلى البداية يلتصق بها: نص 694..728.
+ *
+ * 2) والنص له flex:1 فيتمدد ويأخذ كل المساحة، فيدفع ما بعده إلى الطرف
+ *    الآخر: الاختصار عند 496 بعيداً 155px عن نهاية النص.
+ *    وبإيقاف تمدده (flex:0 1 auto) يلتصق الاختصار: 638..671، أي 13px فقط.
+ *
+ * 3) والاختصار مشحون بـ margin-inline-start:auto (يدفعه للنهاية)؛ نُلغيه
+ *    ونضع مسافة صغيرة صريحة، فتصير العلامة بعده مباشرة.
+ *
+ * ولم نستخدم عكس اتجاه الصف (row-reverse) ولا رتب flex: جرّبناهما فانتقلت
+ * الأيقونة إلى اليسار، وهو خلاف المطلوب.
+ *
+ * والمحددات بصيغة [class*="أصل_"] لا اعتماداً على رقم السطر في الاسم، لأن
+ * ذلك الرقم يتغيّر مع كل بناء (تغيّر فعلاً: 105→173، 208→276، 216→284). */
+
+html[dir="rtl"] [class*="_item_70kcw_"] {
+  flex-direction: row;
+  text-align: right;
+}
+
+html[dir="rtl"] [class*="_item_70kcw_"] > [class*="_itemLabel_70kcw_"] {
+  flex: 0 1 auto;
+  text-align: right;
+}
+
+html[dir="rtl"] [class*="_item_70kcw_"] > [class*="_shortcut_70kcw_"] {
+  margin-inline-start: 8px;
+  margin-inline-end: 0;
 }

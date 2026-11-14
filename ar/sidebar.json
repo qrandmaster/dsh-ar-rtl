@@ -1,8 +1,12 @@
 {
+  "panels.unpinTooltip": "إلغاء التثبيت من الشريط الجانبي الأيسر",
+  "panels.unpin": "إلغاء تثبيت ⁨{name}⁩ من الشريط الجانبي",
   "session.new": "جلسة جديدة",
   "session.new.label": "جلسة جديدة",
   "toggle.open": "فتح الشريط الجانبي",
   "toggle.collapse": "طيّ الشريط الجانبي",
   "panels.label": "اللوحات العامة",
-  "panels.more": "المزيد"
+  "navigation.label": "التنقل",
+  "panels.more": "المزيد",
+  "version.copied": "نُسخ الإصدار"
 }
